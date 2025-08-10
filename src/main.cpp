@@ -142,11 +142,29 @@ void print_heap()
   Serial.printf("Free8=%u, Largest8=%u, Free32=%u\n", (unsigned)free8, (unsigned)larg8, (unsigned)free32);
 }
 
+const int VOLTAGE_PIN = 35;
+
+// Resistor values in ohms
+const float R1 = 5100.0;
+const float R2 = 10000.0;
+
+char voltageBuf[16];
+
 void setup()
 {
   pinMode(27, OUTPUT);
-  digitalWrite(27, 0);
+  digitalWrite(27, brightness_get(125));
+  tft.fillScreen(TFT_BLACK);
+
+  // Show "Loading..."
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setTextDatum(MC_DATUM); // Middle Center
+  tft.drawString("Loading...", tft.width() / 2, tft.height() / 2);
+
   Serial.begin(115200);
+
+  // START MAIN
   lv_init();
 
   lv_log_register_print_cb([](const char *buf)
@@ -169,7 +187,7 @@ void setup()
   tft.begin();
   tft.initDMA();
   tft.setRotation(2);
-  tft.fillScreen(TFT_BLACK);
+  
 
   pinMode(17, OUTPUT);
   pinMode(4, OUTPUT);
@@ -242,8 +260,22 @@ void setup()
   print_heap();
 }
 
+static uint32_t prevTime = 0;
 void loop()
 {
   lv_timer_handler();
   delay(1);
+
+  if (millis() - prevTime > 1000)
+  {
+    int adcValue = analogRead(VOLTAGE_PIN); // 0–4095 range on ESP32
+    float vOut = adcValue * (3.3 / 4095.0); // ESP32 ADC reference is ~3.3V
+    // Scale back to the original voltage before the divider
+    float vIn = vOut * ((R1 + R2) / R2);
+    char voltageBuf[16];
+    snprintf(voltageBuf, sizeof(voltageBuf), "%.2f V", vIn);
+    lv_label_set_text(objects.voltage, voltageBuf);
+
+    prevTime = millis();
+  }
 }

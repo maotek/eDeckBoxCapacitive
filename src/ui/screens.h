@@ -20,6 +20,7 @@ typedef struct _objects_t {
     lv_obj_t *text_screen;
     lv_obj_t *obj0;
     lv_obj_t *obj1;
+    lv_obj_t *voltage;
     lv_obj_t *obj2;
     lv_obj_t *dice_slider;
     lv_obj_t *dice_label;

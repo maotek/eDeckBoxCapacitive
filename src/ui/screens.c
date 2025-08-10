@@ -153,6 +153,16 @@ void create_screen_main() {
                 }
             }
         }
+        {
+            // voltage
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.voltage = obj;
+            lv_obj_set_pos(obj, 179, 19);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_obj_set_style_text_font(obj, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_label_set_text(obj, "0.000 V");
+        }
     }
     
     tick_screen_main();
@@ -541,7 +551,7 @@ void create_screen_settings() {
                             objects.brightness_slider = obj;
                             lv_obj_set_pos(obj, 7, 30);
                             lv_obj_set_size(obj, 145, 10);
-                            lv_slider_set_range(obj, 80, 255);
+                            lv_slider_set_range(obj, 1, 255);
                             lv_slider_set_value(obj, 125, LV_ANIM_OFF);
                             lv_obj_add_event_cb(obj, action_generic_slider_cb, LV_EVENT_VALUE_CHANGED, (void *)800);
                             lv_obj_add_event_cb(obj, action_generic_slider_cb, LV_EVENT_RELEASED, (void *)800);
