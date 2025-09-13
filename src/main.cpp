@@ -26,6 +26,28 @@ SPIClass hspi(HSPI);
 #define TFT_HOR_RES 240
 #define TFT_VER_RES 320
 
+// ADC READING -----------------------------
+#include "driver/adc.h"
+#include "esp_adc_cal.h"
+
+#define VOLTAGE_PIN 35
+#define ADC_CHANNEL ADC1_CHANNEL_7 // GPIO35
+#define ADC_WIDTH_CFG ADC_WIDTH_BIT_12
+#define ADC_ATTEN_CFG ADC_ATTEN_DB_11 // ~0–3.3V range on ESP32
+
+static esp_adc_cal_characteristics_t adc_chars;
+
+// Call this once, e.g., in setup()
+void init_adc_cal()
+{
+  adc1_config_width(ADC_WIDTH_CFG);
+  adc1_config_channel_atten(ADC_CHANNEL, ADC_ATTEN_CFG);
+  // Use eFuse values if present; fall back to 1100 mV
+  esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_CFG, ADC_WIDTH_CFG,
+                           1100 /*mV nominal*/, &adc_chars);
+}
+// ADC READING -----------------------------
+
 /* --- custom map: digits + letters + backspace + OK --- */
 static const char *kb_map_user1[] = {
     "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "\n",
@@ -142,25 +164,31 @@ void print_heap()
   Serial.printf("Free8=%u, Largest8=%u, Free32=%u\n", (unsigned)free8, (unsigned)larg8, (unsigned)free32);
 }
 
-const int VOLTAGE_PIN = 35;
+// const int VOLTAGE_PIN = 35;
 
 // Resistor values in ohms
-const float R1 = 5100.0;
-const float R2 = 10000.0;
+const float R1 = 33000.0;
+const float R2 = 100000.0;
 
 char voltageBuf[16];
 
 void setup()
 {
   pinMode(27, OUTPUT);
-  digitalWrite(27, brightness_get(125));
-  tft.fillScreen(TFT_BLACK);
+  digitalWrite(27, LOW);
+  tft.begin();
+  tft.initDMA();
+  tft.setRotation(2);
 
   // Show "Loading..."
+
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextDatum(MC_DATUM); // Middle Center
   tft.drawString("Loading...", tft.width() / 2, tft.height() / 2);
+  analogWrite(27, brightness_get(125));
+
+  init_adc_cal();
 
   Serial.begin(115200);
 
@@ -183,11 +211,6 @@ void setup()
   }
 
   touch.begin();
-
-  tft.begin();
-  tft.initDMA();
-  tft.setRotation(2);
-  
 
   pinMode(17, OUTPUT);
   pinMode(4, OUTPUT);
@@ -225,6 +248,10 @@ void setup()
 
   // UI init
   ui_init();
+  digitalWrite(27, brightness_get(125));
+
+  // Move voltage readout to top
+  lv_obj_set_parent(objects.voltage, lv_layer_top());
 
   // Set initial value for brightness slider
   lv_slider_set_value(objects.brightness_slider, brightness_get(125), LV_ANIM_OFF);
@@ -259,23 +286,53 @@ void setup()
 
   print_heap();
 }
-
-static uint32_t prevTime = 0;
+// Globals
 void loop()
 {
   lv_timer_handler();
   delay(1);
 
-  if (millis() - prevTime > 1000)
-  {
-    int adcValue = analogRead(VOLTAGE_PIN); // 0–4095 range on ESP32
-    float vOut = adcValue * (3.3 / 4095.0); // ESP32 ADC reference is ~3.3V
-    // Scale back to the original voltage before the divider
-    float vIn = vOut * ((R1 + R2) / R2);
-    char voltageBuf[16];
-    snprintf(voltageBuf, sizeof(voltageBuf), "%.2f V", vIn);
-    lv_label_set_text(objects.voltage, voltageBuf);
+  static uint32_t acc = 0;
+  static uint16_t sampleCount = 0;
+  static uint32_t lastSample = 0;
+  static uint32_t lastUpdate = 0;
 
-    prevTime = millis();
+  // take one sample about every 33 ms
+  if (millis() - lastSample >= 33)
+  {
+    int raw = adc1_get_raw(ADC_CHANNEL); // 0..4095
+    acc += (uint32_t)raw;
+    sampleCount++;
+    lastSample = millis();
+  }
+
+  // update display about once per second
+  if ((millis() - lastUpdate) >= 1000 && sampleCount > 0)
+  {
+    uint16_t adcRaw = acc / sampleCount;
+    acc = 0;
+    sampleCount = 0;
+
+    // Convert averaged raw code to millivolts using calibration
+    uint32_t mv = esp_adc_cal_raw_to_voltage(adcRaw, &adc_chars);
+    float vOutInstant = mv / 1000.0f; // voltage AT GPIO35
+
+    // If using a divider, compute battery voltage like this:
+    vOutInstant = vOutInstant * ((R1 + R2) / R2); // R1: top, R2: bottom
+
+    char buf[24];
+    snprintf(buf, sizeof(buf), "%.2fV", vOutInstant);
+    lv_label_set_text(objects.voltage, buf);
+
+    if (vOutInstant < 3.00f)
+    {
+      lv_obj_set_style_text_color(objects.voltage, lv_color_hex(0xFF0000), 0); // red
+    }
+    else
+    {
+      lv_obj_set_style_text_color(objects.voltage, lv_color_hex(0x00FF00), 0); // green
+    }
+
+    lastUpdate = millis();
   }
 }

@@ -18,6 +18,7 @@ typedef struct _objects_t {
     lv_obj_t *single_lifecount_settings;
     lv_obj_t *single_lifecount_opponent_adjust_count;
     lv_obj_t *text_screen;
+    lv_obj_t *mana_counter;
     lv_obj_t *obj0;
     lv_obj_t *obj1;
     lv_obj_t *voltage;
@@ -95,6 +96,7 @@ typedef struct _objects_t {
     lv_obj_t *my_textarea;
     lv_obj_t *obj39;
     lv_obj_t *obj40;
+    lv_obj_t *obj41;
 } objects_t;
 
 extern objects_t objects;
@@ -110,6 +112,7 @@ enum ScreensEnum {
     SCREEN_ID_SINGLE_LIFECOUNT_SETTINGS = 8,
     SCREEN_ID_SINGLE_LIFECOUNT_OPPONENT_ADJUST_COUNT = 9,
     SCREEN_ID_TEXT_SCREEN = 10,
+    SCREEN_ID_MANA_COUNTER = 11,
 };
 
 void create_screen_main();
@@ -141,6 +144,9 @@ void tick_screen_single_lifecount_opponent_adjust_count();
 
 void create_screen_text_screen();
 void tick_screen_text_screen();
+
+void create_screen_mana_counter();
+void tick_screen_mana_counter();
 
 void tick_screen_by_id(enum ScreensEnum screenId);
 void tick_screen(int screen_index);
