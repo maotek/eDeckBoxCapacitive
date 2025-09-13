@@ -7,6 +7,20 @@
  * ------------------------------------------------------------------*/
 typedef enum
 {
+    /* --- mana counter ------------------------------------------------ */
+    ACT_MANA_BLUE_INCR = 0,
+    ACT_MANA_BLUE_DECR = 1,
+    ACT_MANA_BLACK_INCR = 2,
+    ACT_MANA_BLACK_DECR = 3,
+    ACT_MANA_GREEN_INCR = 4,
+    ACT_MANA_GREEN_DECR = 5,
+    ACT_MANA_YELLOW_INCR = 6,
+    ACT_MANA_YELLOW_DECR = 7,
+    ACT_MANA_RED_INCR = 8,
+    ACT_MANA_RED_DECR = 9,
+    ACT_MANA_COLORLESS_INCR = 10,
+    ACT_MANA_COLORLESS_DECR = 11,
+
     /* --- navigation ------------------------------------------------ */
     ACT_OPEN_ABOUT = 100,
     ACT_OPEN_MENU = 101,
@@ -16,6 +30,7 @@ typedef enum
     ACT_OPEN_LIFECOUNT_SELECTOR = 105,
     ACT_OPEN_SINGLE_LIFECOUNT_SETTINGS = 106,
     ACT_OPEN_DICE = 107,
+    ACT_OPEN_MANACOUNTER = 108,
 
     /* --- settings ------------------------------------------------ */
     ACT_TOGGLE_PERF_MON = 200,

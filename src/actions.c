@@ -17,7 +17,7 @@
 static inline void refresh_btn_label(uint8_t id)
 {
     lv_label_set_text_fmt(cmd_btn_label[id],
-                          "%s\nDealt: %d\nTaken: %d",
+                          "%s\nTo: %d\nFrom: %d",
                           g_players[id].nickname,
                           g_players[id].dmg_dealt,
                           g_players[id].dmg_taken);
@@ -45,8 +45,24 @@ static void roll_dice_step_cb(lv_timer_t *timer)
     lv_label_set_text_fmt(objects.dice_result, "%d", temp_roll);
 }
 
-/* bump a numeric label by delta and clamp to [0,99] */
+/* bump a numeric LIFE label by delta and clamp to [0,99] */
 static inline void bump_life_label(lv_obj_t *lbl, int delta)
+{
+    const char *t = lv_label_get_text(lbl);
+    char *end;
+    long v = strtol(t ? t : "0", &end, 10);
+
+    v += delta;
+    if (v < 0)
+        v = 0;
+    if (v > 99)
+        v = 99;
+
+    lv_label_set_text_fmt(lbl, "%ld", v);
+}
+
+/* bump a numeric MANA label by delta and clamp to [0,99] */
+static inline void bump_mana_label(lv_obj_t *lbl, int delta)
 {
     const char *t = lv_label_get_text(lbl);
     char *end;
@@ -78,96 +94,96 @@ static inline void single_select_opponent(uint8_t idx)
 
 /* -------------------- END CUSTOM BUSINESS LOGIC ----------------------------*/
 
-void action_single_lifecount_btn_clicked_cb(lv_event_t *e)
-{
-    uint32_t id = (uint32_t)lv_event_get_user_data(e);
-    current_player_idx = id;
+// void action_single_lifecount_btn_clicked_cb(lv_event_t *e)
+// {
+//     uint32_t id = (uint32_t)lv_event_get_user_data(e);
+//     current_player_idx = id;
 
-    // When we switch to the adjusting count screen, we set the labels with the player state values
-    lv_label_set_text_fmt(objects.single_lifecount_edh_commander_dealt_label,
-                          "%d", g_players[current_player_idx].dmg_dealt);
+//     // When we switch to the adjusting count screen, we set the labels with the player state values
+//     lv_label_set_text_fmt(objects.single_lifecount_edh_commander_dealt_label,
+//                           "%d", g_players[current_player_idx].dmg_dealt);
 
-    lv_label_set_text_fmt(objects.single_lifecount_edh_commander_taken_label,
-                          "%d", g_players[current_player_idx].dmg_taken);
+//     lv_label_set_text_fmt(objects.single_lifecount_edh_commander_taken_label,
+//                           "%d", g_players[current_player_idx].dmg_taken);
 
-    loadScreen(SCREEN_ID_SINGLE_LIFECOUNT_OPPONENT_ADJUST_COUNT);
-}
+//     loadScreen(SCREEN_ID_SINGLE_LIFECOUNT_OPPONENT_ADJUST_COUNT);
+// }
 
-void action_single_lifecount_edh_opponent_dealt_label_incr(lv_event_t *e)
-{
-    if (g_players[current_player_idx].dmg_dealt < 99)
-        player_add_dealt(current_player_idx, +1);
+// void action_single_lifecount_edh_opponent_dealt_label_incr(lv_event_t *e)
+// {
+//     if (g_players[current_player_idx].dmg_dealt < 99)
+//         player_add_dealt(current_player_idx, +1);
 
-    lv_obj_t *lbl = objects.single_lifecount_edh_commander_dealt_label;
+//     lv_obj_t *lbl = objects.single_lifecount_edh_commander_dealt_label;
 
-    const char *t = lv_label_get_text(lbl);
-    char *end;
-    long v = strtol(t ? t : "0", &end, 10);
+//     const char *t = lv_label_get_text(lbl);
+//     char *end;
+//     long v = strtol(t ? t : "0", &end, 10);
 
-    if (v < 99)
-        v++;
+//     if (v < 99)
+//         v++;
 
-    lv_label_set_text_fmt(lbl, "%d", (int)v);
+//     lv_label_set_text_fmt(lbl, "%d", (int)v);
 
-    refresh_btn_label(current_player_idx);
-}
+//     refresh_btn_label(current_player_idx);
+// }
 
-void action_single_lifecount_edh_opponent_dealt_label_decr(lv_event_t *e)
-{
-    if (g_players[current_player_idx].dmg_dealt > 0)
-        player_add_dealt(current_player_idx, -1);
+// void action_single_lifecount_edh_opponent_dealt_label_decr(lv_event_t *e)
+// {
+//     if (g_players[current_player_idx].dmg_dealt > 0)
+//         player_add_dealt(current_player_idx, -1);
 
-    lv_obj_t *lbl = objects.single_lifecount_edh_commander_dealt_label;
+//     lv_obj_t *lbl = objects.single_lifecount_edh_commander_dealt_label;
 
-    const char *t = lv_label_get_text(lbl);
-    char *end;
-    long v = strtol(t ? t : "0", &end, 10);
+//     const char *t = lv_label_get_text(lbl);
+//     char *end;
+//     long v = strtol(t ? t : "0", &end, 10);
 
-    if (v > 0)
-        v--;
+//     if (v > 0)
+//         v--;
 
-    lv_label_set_text_fmt(lbl, "%d", (int)v);
+//     lv_label_set_text_fmt(lbl, "%d", (int)v);
 
-    refresh_btn_label(current_player_idx);
-}
+//     refresh_btn_label(current_player_idx);
+// }
 
-void action_single_lifecount_edh_opponent_taken_label_incr(lv_event_t *e)
-{
-    if (g_players[current_player_idx].dmg_taken < 99)
-        player_add_taken(current_player_idx, +1);
+// void action_single_lifecount_edh_opponent_taken_label_incr(lv_event_t *e)
+// {
+//     if (g_players[current_player_idx].dmg_taken < 99)
+//         player_add_taken(current_player_idx, +1);
 
-    lv_obj_t *lbl = objects.single_lifecount_edh_commander_taken_label;
+//     lv_obj_t *lbl = objects.single_lifecount_edh_commander_taken_label;
 
-    const char *t = lv_label_get_text(lbl);
-    char *end;
-    long v = strtol(t ? t : "0", &end, 10);
+//     const char *t = lv_label_get_text(lbl);
+//     char *end;
+//     long v = strtol(t ? t : "0", &end, 10);
 
-    if (v < 99)
-        v++;
+//     if (v < 99)
+//         v++;
 
-    lv_label_set_text_fmt(lbl, "%d", (int)v);
+//     lv_label_set_text_fmt(lbl, "%d", (int)v);
 
-    refresh_btn_label(current_player_idx);
-}
+//     refresh_btn_label(current_player_idx);
+// }
 
-void action_single_lifecount_edh_opponent_taken_label_decr(lv_event_t *e)
-{
-    if (g_players[current_player_idx].dmg_taken > 0)
-        player_add_taken(current_player_idx, -1);
+// void action_single_lifecount_edh_opponent_taken_label_decr(lv_event_t *e)
+// {
+//     if (g_players[current_player_idx].dmg_taken > 0)
+//         player_add_taken(current_player_idx, -1);
 
-    lv_obj_t *lbl = objects.single_lifecount_edh_commander_taken_label;
+//     lv_obj_t *lbl = objects.single_lifecount_edh_commander_taken_label;
 
-    const char *t = lv_label_get_text(lbl);
-    char *end;
-    long v = strtol(t ? t : "0", &end, 10);
+//     const char *t = lv_label_get_text(lbl);
+//     char *end;
+//     long v = strtol(t ? t : "0", &end, 10);
 
-    if (v > 0)
-        v--;
+//     if (v > 0)
+//         v--;
 
-    lv_label_set_text_fmt(lbl, "%d", (int)v);
+//     lv_label_set_text_fmt(lbl, "%d", (int)v);
 
-    refresh_btn_label(current_player_idx);
-}
+//     refresh_btn_label(current_player_idx);
+// }
 
 #define IMAGES_COUNT (sizeof(images) / sizeof(images[0]))
 void action_generic_button_cb(lv_event_t *e)
@@ -211,7 +227,58 @@ void action_generic_button_cb(lv_event_t *e)
         loadScreen(SCREEN_ID_DICE);
         break;
 
-    /* ---- navigation -------------------- */
+    case ACT_OPEN_MANACOUNTER:
+        loadScreen(SCREEN_ID_MANA_COUNTER);
+        break;
+
+        /* ---- end navigation -------------------- */
+
+        /* ---- mana counter -------------------- */
+
+    case ACT_MANA_BLACK_INCR:
+        bump_mana_label(objects.mana_black_label, 1);
+        break;
+    case ACT_MANA_BLACK_DECR:
+        bump_mana_label(objects.mana_black_label, -1);
+        break;
+
+    case ACT_MANA_BLUE_INCR:
+        bump_mana_label(objects.mana_blue_label, 1);
+        break;
+    case ACT_MANA_BLUE_DECR:
+        bump_mana_label(objects.mana_blue_label, -1);
+        break;
+
+    case ACT_MANA_GREEN_INCR:
+        bump_mana_label(objects.mana_green_label, 1);
+        break;
+    case ACT_MANA_GREEN_DECR:
+        bump_mana_label(objects.mana_green_label, -1);
+        break;
+
+    case ACT_MANA_YELLOW_INCR:
+        bump_mana_label(objects.mana_yellow_label, 1);
+        break;
+    case ACT_MANA_YELLOW_DECR:
+        bump_mana_label(objects.mana_yellow_label, -1);
+        break;
+
+    case ACT_MANA_RED_INCR:
+        bump_mana_label(objects.mana_red_label, 1);
+        break;
+    case ACT_MANA_RED_DECR:
+        bump_mana_label(objects.mana_red_label, -1);
+        break;
+
+    case ACT_MANA_COLORLESS_INCR:
+        bump_mana_label(objects.mana_colorless_label, 1);
+        break;
+    case ACT_MANA_COLORLESS_DECR:
+        bump_mana_label(objects.mana_colorless_label, -1);
+        break;
+
+        /* ---- end mana counter -------------------- */
+
     case ACT_TOGGLE_PERF_MON:
     {
         // Requires manual change in core files, lv_refr.c to expose the perf_label to user code.
@@ -233,9 +300,21 @@ void action_generic_button_cb(lv_event_t *e)
     {
         uint16_t bg_idx = bg_get_index(0);
         lv_style_t *style = get_style_main_background_MAIN_DEFAULT();
+
+        /* increment index */
         bg_idx = (bg_idx + 1) % IMAGES_COUNT;
+
+        /* skip if the name is "mana" */
+        if (strcmp(images[bg_idx].name, "mana") == 0)
+        {
+            bg_idx = (bg_idx + 1) % IMAGES_COUNT; // skip mana image
+        }
+
+        /* apply background */
         lv_style_set_bg_img_src(style, images[bg_idx].img_dsc);
         lv_obj_report_style_change(style);
+
+        /* save index */
         bg_save_index(bg_idx);
         break;
 
