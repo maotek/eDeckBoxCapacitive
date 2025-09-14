@@ -6,7 +6,7 @@
 #include "Arduino.h"
 #include "lvgl.h"
 
-#include "state_manager.h"
+#include "preference_manager.h"
 #include "layout.h"
 #include "player.h"
 
@@ -229,6 +229,14 @@ void action_generic_button_cb(lv_event_t *e)
 
     case ACT_OPEN_MANACOUNTER:
         loadScreen(SCREEN_ID_MANA_COUNTER);
+        break;
+
+    case ACT_OPEN_MULTI_LIFECOUNT:
+        loadScreen(SCREEN_ID_MULTI_LIFECOUNT);
+        break;
+
+    case ACT_OPEN_MULTI_LIFECOUNT_SETTINGS:
+        loadScreen(SCREEN_ID_MULTI_LIFECOUNT_SETTINGS);
         break;
 
         /* ---- end navigation -------------------- */
@@ -519,6 +527,28 @@ void action_generic_button_cb(lv_event_t *e)
         loadScreen(SCREEN_ID_TEXT_SCREEN);
         break;
 
+        /* Multi lifecount settings */
+    case ACT_MULTI_LIFECOUNT_SETTINGS_RESET:
+        if (code == LV_EVENT_SHORT_CLICKED || code == LV_EVENT_CLICKED)
+        {
+            // Reset labels
+            lv_label_set_text(objects.multi_lifecount_settings_initiallife_label, "Initial Health: 20");
+            lv_label_set_text(objects.multi_lifecount_settings_playercount_label, "Players: 4");
+            lv_label_set_text(objects.multi_lifecount_settings_initiallife_label, "Initial Health: 40");
+
+            // Reset slider values
+            lv_slider_set_value(objects.multi_lifecount_settings_initiallife_slider, 20, LV_ANIM_OFF);
+            lv_slider_set_value(objects.multi_lifecount_settings_player_slider, 4, LV_ANIM_OFF);
+        }
+        break;
+
+    case ACT_MULTI_LIFECOUNT_APPLY_SETTINGS:
+        if (code == LV_EVENT_SHORT_CLICKED || code == LV_EVENT_CLICKED)
+        {
+            // TODO
+        }
+        break;
+
     /* ---- default: unknown ID (no action) --------------------- */
     default:
         /* Optionally log or ignore */
@@ -586,6 +616,25 @@ void action_generic_slider_cb(lv_event_t *e)
         int32_t value = lv_slider_get_value(slider);
 
         lv_label_set_text_fmt(objects.single_lifecount_1v1_settings_initiallife_label, "Initial Health: %d", value);
+        break;
+    }
+
+    // Below is for multi life count
+    case ACT_SLI_MULTI_INIT_LIFE:
+    {
+        lv_obj_t *slider = lv_event_get_target(e);
+        int32_t value = lv_slider_get_value(slider);
+
+        lv_label_set_text_fmt(objects.multi_lifecount_settings_initiallife_label, "Initial Health: %d", value);
+        break;
+    }
+
+    case ACT_SLI_MULTI_PLAYERCOUNT:
+    {
+        lv_obj_t *slider = lv_event_get_target(e);
+        int32_t value = lv_slider_get_value(slider);
+
+        lv_label_set_text_fmt(objects.multi_lifecount_settings_playercount_label, "Players: %d", value);
         break;
     }
 

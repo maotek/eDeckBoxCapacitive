@@ -31,6 +31,8 @@ typedef enum
     ACT_OPEN_SINGLE_LIFECOUNT_SETTINGS = 106,
     ACT_OPEN_DICE = 107,
     ACT_OPEN_MANACOUNTER = 108,
+    ACT_OPEN_MULTI_LIFECOUNT = 109,
+    ACT_OPEN_MULTI_LIFECOUNT_SETTINGS = 110,
 
     /* --- settings ------------------------------------------------ */
     ACT_TOGGLE_PERF_MON = 200,
@@ -67,7 +69,11 @@ typedef enum
     ACT_SINGLE_EDH_OPP_TAKEN_DECR = 613,
 
     /* single lifecount opponnent set name */
-    ACT_SINGLE_LIFECOUNT_OPP_CHANGE_NAME = 630
+    ACT_SINGLE_LIFECOUNT_OPP_CHANGE_NAME = 630,
+
+    /* multi lifecount settings */
+    ACT_MULTI_LIFECOUNT_SETTINGS_RESET = 700,
+    ACT_MULTI_LIFECOUNT_APPLY_SETTINGS = 701,
 
 } ui_btn_action_t;
 
@@ -83,6 +89,10 @@ typedef enum
     ACT_SLI_EDH_INIT_LIFE = 802,
     ACT_SLI_EDH_PLAYERCOUNT = 803,
     ACT_SLI_1V1_INIT_LIFE = 804,
+
+    /* multi lifecount settings*/
+    ACT_SLI_MULTI_INIT_LIFE = 810,
+    ACT_SLI_MULTI_PLAYERCOUNT = 811,
 
 } ui_slider_action_t;
 

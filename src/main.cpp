@@ -7,7 +7,7 @@
 
 #include "esp_heap_caps.h"
 
-#include "state_manager.h"
+#include "preference_manager.h"
 #include "ui/styles.h"
 #include "ui/images.h"
 
@@ -20,7 +20,7 @@
 #include <SD.h>
 #include "sd_lib.h"
 
-SPIClass hspi(HSPI);
+// SPIClass hspi(HSPI);
 
 #define BUFFER_LINES 160
 #define TFT_HOR_RES 240
@@ -34,6 +34,10 @@ SPIClass hspi(HSPI);
 #define ADC_CHANNEL ADC1_CHANNEL_7 // GPIO35
 #define ADC_WIDTH_CFG ADC_WIDTH_BIT_12
 #define ADC_ATTEN_CFG ADC_ATTEN_DB_11 // ~0–3.3V range on ESP32
+
+#define V_MIN 3.0f       // empty voltage
+#define V_FULL 4.13f     // treat as full starting at 4.13 V
+#define V_CHARGING 4.16f // treat as charging starting at 4.16 V
 
 static esp_adc_cal_characteristics_t adc_chars;
 
@@ -57,7 +61,6 @@ static const char *kb_map_user1[] = {
     " ", LV_SYMBOL_OK, "" /* must end with empty string */
 };
 
-/* Optional: widen Backspace, make OK full width. Omit if you don’t care. */
 static const lv_btnmatrix_ctrl_t kb_ctrl_user1[] = {
     /* row1: 10 keys */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     /* row2: 10 keys */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -84,7 +87,7 @@ static void my_keyboard_event_cb(lv_event_t *e)
       lv_label_set_text(objects.single_lifecount_opponent_namelabel, g_players[current_player_idx].nickname);
       lv_textarea_set_text(objects.my_textarea, "");
       lv_label_set_text_fmt(cmd_btn_label[current_player_idx],
-                            "%s\nDealt: %d\nTaken: %d",
+                            "%s\nTo: %d\nFrom: %d",
                             g_players[current_player_idx].nickname,
                             g_players[current_player_idx].dmg_dealt,
                             g_players[current_player_idx].dmg_taken);
@@ -156,13 +159,13 @@ void my_touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
   }
 }
 
-void print_heap()
-{
-  size_t free8 = heap_caps_get_free_size(MALLOC_CAP_8BIT);
-  size_t larg8 = heap_caps_get_largest_free_block(MALLOC_CAP_8BIT);
-  size_t free32 = heap_caps_get_free_size(MALLOC_CAP_32BIT);
-  Serial.printf("Free8=%u, Largest8=%u, Free32=%u\n", (unsigned)free8, (unsigned)larg8, (unsigned)free32);
-}
+// void print_heap()
+// {
+//   size_t free8 = heap_caps_get_free_size(MALLOC_CAP_8BIT);
+//   size_t larg8 = heap_caps_get_largest_free_block(MALLOC_CAP_8BIT);
+//   size_t free32 = heap_caps_get_free_size(MALLOC_CAP_32BIT);
+//   Serial.printf("Free8=%u, Largest8=%u, Free32=%u\n", (unsigned)free8, (unsigned)larg8, (unsigned)free32);
+// }
 
 // const int VOLTAGE_PIN = 35;
 
@@ -181,12 +184,11 @@ void setup()
   tft.setRotation(2);
 
   // Show "Loading..."
-
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextDatum(MC_DATUM); // Middle Center
   tft.drawString("Loading...", tft.width() / 2, tft.height() / 2);
-  analogWrite(27, brightness_get(125));
+  analogWrite(27, brightness_get(100));
 
   init_adc_cal();
 
@@ -195,20 +197,20 @@ void setup()
   // START MAIN
   lv_init();
 
-  lv_log_register_print_cb([](const char *buf)
-                           { Serial.println(buf); print_heap(); Serial.println(sd_open_ct); });
+  // lv_log_register_print_cb([](const char *buf)
+  //                          { Serial.println(buf); print_heap(); Serial.println(sd_open_ct); });
 
-  hspi.begin(18, 19, 23); // CLK, MISO, MOSI for HSPI
+  // hspi.begin(18, 19, 23); // CLK, MISO, MOSI for HSPI
 
-  if (!SD.begin(5, hspi))
-  {
-    Serial.println("SD init failed");
-  }
-  else
-  {
-    Serial.println("SD initialized");
-    my_sd_fs_init();
-  }
+  // if (!SD.begin(5, hspi))
+  // {
+  //   Serial.println("SD init failed");
+  // }
+  // else
+  // {
+  //   Serial.println("SD initialized");
+  //   my_sd_fs_init();
+  // }
 
   touch.begin();
 
@@ -248,7 +250,6 @@ void setup()
 
   // UI init
   ui_init();
-  digitalWrite(27, brightness_get(125));
 
   // Move voltage readout to top
   lv_obj_set_parent(objects.voltage, lv_layer_top());
@@ -263,9 +264,6 @@ void setup()
 
   // Initialize default layout
   single_lifecount_edh_layout_init();
-
-  // Turn on screen
-  analogWrite(27, brightness_get(125));
 
   Serial.println("Setup complete.");
 
@@ -284,7 +282,7 @@ void setup()
 
   init_my_keyboard_listener();
 
-  print_heap();
+  // print_heap();
 }
 // Globals
 void loop()
@@ -296,6 +294,8 @@ void loop()
   static uint16_t sampleCount = 0;
   static uint32_t lastSample = 0;
   static uint32_t lastUpdate = 0;
+
+  static float lowestPercent = 100.0f; // start at 100%
 
   // take one sample about every 33 ms
   if (millis() - lastSample >= 33)
@@ -309,28 +309,79 @@ void loop()
   // update display about once per second
   if ((millis() - lastUpdate) >= 1000 && sampleCount > 0)
   {
+    // Average as before
     uint16_t adcRaw = acc / sampleCount;
     acc = 0;
     sampleCount = 0;
 
-    // Convert averaged raw code to millivolts using calibration
+    // Convert averaged raw code to millivolts
     uint32_t mv = esp_adc_cal_raw_to_voltage(adcRaw, &adc_chars);
-    float vOutInstant = mv / 1000.0f; // voltage AT GPIO35
+    float vOutInstant = mv / 1000.0f; // voltage at GPIO35
 
-    // If using a divider, compute battery voltage like this:
-    vOutInstant = vOutInstant * ((R1 + R2) / R2); // R1: top, R2: bottom
+    // Apply divider
+    vOutInstant = vOutInstant * ((R1 + R2) / R2); // R1 top, R2 bottom
 
-    char buf[24];
-    snprintf(buf, sizeof(buf), "%.2fV", vOutInstant);
-    lv_label_set_text(objects.voltage, buf);
+    // --- Determine state ---
+    float percent = 0;
+    bool charging = false;
 
-    if (vOutInstant < 3.00f)
+    if (vOutInstant >= V_CHARGING)
     {
-      lv_obj_set_style_text_color(objects.voltage, lv_color_hex(0xFF0000), 0); // red
+      // 4.16 V or above → charging
+      percent = 100.0f;
+      charging = true;
+    }
+    else if (vOutInstant >= V_FULL)
+    {
+      // Between 4.13 and 4.16 → full
+      percent = 100.0f;
     }
     else
     {
-      lv_obj_set_style_text_color(objects.voltage, lv_color_hex(0x00FF00), 0); // green
+      // Below 4.13 → scale between V_MIN and V_FULL
+      percent = (vOutInstant - V_MIN) / (V_FULL - V_MIN) * 100.0f;
+      if (percent < 0)
+        percent = 0;
+      if (percent > 100)
+        percent = 100;
+    }
+
+    // if (percent < lowestPercent)
+    {
+      lowestPercent = percent; // update when new lower value found
+    }
+
+    // --- Format label ---
+    char buf[32];
+    if (charging)
+    {
+      snprintf(buf, sizeof(buf), "CHG", lowestPercent);
+    }
+    else if (percent == 100.0f)
+    {
+      snprintf(buf, sizeof(buf), "%.0f%%", lowestPercent);
+    }
+    else
+    {
+      snprintf(buf, sizeof(buf), "%.0f%%", lowestPercent);
+    }
+    lv_label_set_text(objects.voltage, buf);
+
+    // --- Color ---
+    if (charging)
+    {
+      lv_obj_set_style_text_color(objects.voltage,
+                                  lv_color_hex(0x00FF00), 0);
+    }
+    else if (percent < 20.0f)
+    {
+      lv_obj_set_style_text_color(objects.voltage,
+                                  lv_color_hex(0xFF0000), 0);
+    }
+    else
+    {
+      lv_obj_set_style_text_color(objects.voltage,
+                                  lv_color_hex(0xFFFFFF), 0);
     }
 
     lastUpdate = millis();
