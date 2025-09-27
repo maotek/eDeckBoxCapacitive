@@ -1,6 +1,6 @@
 {
   "navigation": {
-    "selectedUserPageObject": "[MTGDeckBox.eez-project]:/userPages/13",
+    "selectedUserPageObject": "[MTGDeckBox.eez-project]:/userPages/4",
     "selectedStyleObject": "[MTGDeckBox.eez-project]:/lvglStyles/styles/1",
     "selectedFontObject": "[MTGDeckBox.eez-project]:/fonts/5",
     "selectedBitmapObject": "[MTGDeckBox.eez-project]:/bitmaps/9",
@@ -197,10 +197,10 @@
                 {
                   "type": "tab",
                   "id": "#e3f7a34e-4c3a-460c-850f-cff7180b3696",
-                  "name": "MultiLifecountOpponentAdjustCount",
+                  "name": "Settings",
                   "component": "editor",
                   "config": {
-                    "objectPath": "[MTGDeckBox.eez-project]:/userPages/13",
+                    "objectPath": "[MTGDeckBox.eez-project]:/userPages/4",
                     "permanent": false
                   },
                   "icon": "svg:page"
@@ -1143,7 +1143,13 @@
         "0": {
           "0": {},
           "1": {},
-          "3": {}
+          "3": {
+            "1": {
+              "1": {
+                "$selected": true
+              }
+            }
+          }
         }
       },
       "transform": {
@@ -1381,11 +1387,11 @@
           "1": {},
           "2": {},
           "3": {},
-          "4": {},
-          "5": {},
-          "7": {
+          "4": {
             "$selected": true
-          }
+          },
+          "5": {},
+          "7": {}
         }
       },
       "transform": {
@@ -1412,9 +1418,7 @@
             "1": {},
             "2": {},
             "3": {
-              "0": {
-                "$selected": true
-              }
+              "0": {}
             },
             "4": {},
             "5": {}

@@ -15,7 +15,7 @@ typedef struct
     char nickname[9]; // max 8 chars + null terminator
     int8_t dmg_taken;
     int8_t dmg_dealt;
-} player_t;
+} singlecount_player_t;
 
 #ifdef __cplusplus
 extern "C"
@@ -23,13 +23,13 @@ extern "C"
 #endif
 
     /** Fixed table holding exactly six players */
-    extern player_t g_players[6];
-    extern uint8_t current_player_idx;
+    extern singlecount_player_t singlecount_players[6];
+    extern uint8_t singlecount_current_player_idx;
 
     /* --- helpers --------------------------------------------------------- */
-    void player_add_taken(uint8_t id, int8_t delta);
-    void player_add_dealt(uint8_t id, int8_t delta);
-    void player_set_nickname(uint8_t id, const char *name);
+    void singlecount_player_add_taken(uint8_t id, int8_t delta);
+    void singlecount_player_add_dealt(uint8_t id, int8_t delta);
+    void singlecount_player_set_nickname(uint8_t id, const char *name);
 
 #ifdef __cplusplus
 } /* extern "C" */

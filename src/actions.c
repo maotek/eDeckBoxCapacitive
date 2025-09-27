@@ -18,9 +18,9 @@ static inline void refresh_btn_label(uint8_t id)
 {
     lv_label_set_text_fmt(cmd_btn_label[id],
                           "%s\nTo: %d\nFrom: %d",
-                          g_players[id].nickname,
-                          g_players[id].dmg_dealt,
-                          g_players[id].dmg_taken);
+                          singlecount_players[id].nickname,
+                          singlecount_players[id].dmg_dealt,
+                          singlecount_players[id].dmg_taken);
 }
 
 // Dice Logic
@@ -80,14 +80,14 @@ static inline void bump_mana_label(lv_obj_t *lbl, int delta)
 /* helper to switch opponent and show adjust screen */
 static inline void single_select_opponent(uint8_t idx)
 {
-    current_player_idx = idx;
+    singlecount_current_player_idx = idx;
 
     lv_label_set_text_fmt(objects.single_lifecount_edh_commander_dealt_label,
-                          "%d", g_players[idx].dmg_dealt);
+                          "%d", singlecount_players[idx].dmg_dealt);
     lv_label_set_text_fmt(objects.single_lifecount_edh_commander_taken_label,
-                          "%d", g_players[idx].dmg_taken);
+                          "%d", singlecount_players[idx].dmg_taken);
     lv_label_set_text(objects.single_lifecount_opponent_namelabel,
-                      g_players[idx].nickname);
+                      singlecount_players[idx].nickname);
 
     loadScreen(SCREEN_ID_SINGLE_LIFECOUNT_OPPONENT_ADJUST_COUNT);
 }
@@ -486,38 +486,38 @@ void action_generic_button_cb(lv_event_t *e)
 
     /* ---- opponent adjust: dealt/taken ± ---------------------- */
     case ACT_SINGLE_EDH_OPP_DEALT_INCR:
-        if (g_players[current_player_idx].dmg_dealt < 99)
+        if (singlecount_players[singlecount_current_player_idx].dmg_dealt < 99)
         {
-            player_add_dealt(current_player_idx, +1);
+            singlecount_player_add_dealt(singlecount_current_player_idx, +1);
             bump_life_label(objects.single_lifecount_edh_commander_dealt_label, +1);
-            refresh_btn_label(current_player_idx);
+            refresh_btn_label(singlecount_current_player_idx);
         }
         break;
 
     case ACT_SINGLE_EDH_OPP_DEALT_DECR:
-        if (g_players[current_player_idx].dmg_dealt > 0)
+        if (singlecount_players[singlecount_current_player_idx].dmg_dealt > 0)
         {
-            player_add_dealt(current_player_idx, -1);
+            singlecount_player_add_dealt(singlecount_current_player_idx, -1);
             bump_life_label(objects.single_lifecount_edh_commander_dealt_label, -1);
-            refresh_btn_label(current_player_idx);
+            refresh_btn_label(singlecount_current_player_idx);
         }
         break;
 
     case ACT_SINGLE_EDH_OPP_TAKEN_INCR:
-        if (g_players[current_player_idx].dmg_taken < 99)
+        if (singlecount_players[singlecount_current_player_idx].dmg_taken < 99)
         {
-            player_add_taken(current_player_idx, +1);
+            singlecount_player_add_taken(singlecount_current_player_idx, +1);
             bump_life_label(objects.single_lifecount_edh_commander_taken_label, +1);
-            refresh_btn_label(current_player_idx);
+            refresh_btn_label(singlecount_current_player_idx);
         }
         break;
 
     case ACT_SINGLE_EDH_OPP_TAKEN_DECR:
-        if (g_players[current_player_idx].dmg_taken > 0)
+        if (singlecount_players[singlecount_current_player_idx].dmg_taken > 0)
         {
-            player_add_taken(current_player_idx, -1);
+            singlecount_player_add_taken(singlecount_current_player_idx, -1);
             bump_life_label(objects.single_lifecount_edh_commander_taken_label, -1);
-            refresh_btn_label(current_player_idx);
+            refresh_btn_label(singlecount_current_player_idx);
         }
         break;
 

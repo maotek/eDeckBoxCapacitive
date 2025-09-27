@@ -13,12 +13,12 @@
 
 #include "player.h"
 
-#define BTN_WIDTH(n) ((lv_btnmatrix_ctrl_t)((n) & 0x0F))
-
 #include "layout.h"
 
 #include <SD.h>
 #include "sd_lib.h"
+
+#include "keyboard.h"
 
 // SPIClass hspi(HSPI);
 
@@ -51,57 +51,6 @@ void init_adc_cal()
                            1100 /*mV nominal*/, &adc_chars);
 }
 // ADC READING -----------------------------
-
-/* --- custom map: digits + letters + backspace + OK --- */
-static const char *kb_map_user1[] = {
-    "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "\n",
-    "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "\n",
-    "a", "s", "d", "f", "g", "h", "j", "k", "l", "\n",
-    "z", "x", "c", "v", "b", "n", "m", LV_SYMBOL_BACKSPACE, "\n",
-    " ", LV_SYMBOL_OK, "" /* must end with empty string */
-};
-
-static const lv_btnmatrix_ctrl_t kb_ctrl_user1[] = {
-    /* row1: 10 keys */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    /* row2: 10 keys */ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    /* row3:  9 keys */ 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    /* row4:  7 letters + backspace wider */ 0, 0, 0, 0, 0, 0, 0, BTN_WIDTH(2),
-    /* row5:  OK full row (15 units typical) */ 0, 0};
-
-/* Custom keyboard listener callback */
-static void my_keyboard_event_cb(lv_event_t *e)
-{
-  lv_event_code_t code = lv_event_get_code(e);
-  lv_obj_t *kb = lv_event_get_target(e);
-
-  if (code == LV_EVENT_VALUE_CHANGED)
-  {
-    uint16_t btn_id = lv_btnmatrix_get_selected_btn(kb);
-    const char *txt = lv_btnmatrix_get_btn_text(kb, btn_id);
-
-    if (txt && strcmp(txt, LV_SYMBOL_OK) == 0)
-    {
-      // Store name in global state
-      player_set_nickname(current_player_idx, lv_textarea_get_text(objects.my_textarea));
-      // Adjust name
-      lv_label_set_text(objects.single_lifecount_opponent_namelabel, g_players[current_player_idx].nickname);
-      lv_textarea_set_text(objects.my_textarea, "");
-      lv_label_set_text_fmt(cmd_btn_label[current_player_idx],
-                            "%s\nTo: %d\nFrom: %d",
-                            g_players[current_player_idx].nickname,
-                            g_players[current_player_idx].dmg_dealt,
-                            g_players[current_player_idx].dmg_taken);
-      loadScreen(SCREEN_ID_SINGLE_LIFECOUNT_OPPONENT_ADJUST_COUNT);
-    }
-  }
-}
-
-/* END Custom keyboard listener callback */
-
-void init_my_keyboard_listener(void)
-{
-  lv_obj_add_event_cb(objects.my_keyboard, my_keyboard_event_cb, LV_EVENT_ALL, NULL);
-}
 
 #define I2C_SDA 33
 #define I2C_SCL 32
@@ -166,8 +115,6 @@ void my_touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
 //   size_t free32 = heap_caps_get_free_size(MALLOC_CAP_32BIT);
 //   Serial.printf("Free8=%u, Largest8=%u, Free32=%u\n", (unsigned)free8, (unsigned)larg8, (unsigned)free32);
 // }
-
-// const int VOLTAGE_PIN = 35;
 
 // Resistor values in ohms
 const float R1 = 33000.0;
@@ -267,24 +214,11 @@ void setup()
 
   Serial.println("Setup complete.");
 
-  /* LINK KEYBOARD */
-  lv_obj_t *kb = objects.my_keyboard; /* replace with your keyboard obj */
-  lv_obj_t *ta = objects.my_textarea; /* the target textarea */
-
-  lv_keyboard_set_textarea(kb, ta);
-
-  /* Optional: enforce allowed chars at the textarea level */
-  lv_textarea_set_accepted_chars(ta, "0123456789 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
-
-  /* Install map into User1 and activate it */
-  lv_keyboard_set_map(kb, LV_KEYBOARD_MODE_USER_1, kb_map_user1, kb_ctrl_user1);
-  lv_keyboard_set_mode(kb, LV_KEYBOARD_MODE_USER_1);
-
-  init_my_keyboard_listener();
+  keyboard_init(objects.my_keyboard, objects.my_textarea);
 
   // print_heap();
 }
-// Globals
+
 void loop()
 {
   lv_timer_handler();
