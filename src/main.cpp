@@ -11,8 +11,6 @@
 #include "layout.h"
 #include "keyboard.h"
 
-// SPIClass hspi(HSPI);
-
 #define BUFFER_LINES 160
 #define TFT_HOR_RES 240
 #define TFT_VER_RES 320
@@ -32,7 +30,6 @@
 
 static esp_adc_cal_characteristics_t adc_chars;
 
-// Call this once, e.g., in setup()
 void init_adc_cal()
 {
   adc1_config_width(ADC_WIDTH_CFG);
@@ -113,7 +110,9 @@ void setup()
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextDatum(MC_DATUM); // Middle Center
   tft.drawString("Loading...", tft.width() / 2, tft.height() / 2);
-  analogWrite(27, brightness_get(100));
+
+  // Set initial brightness
+  analogWrite(27, get_value_with_key("pref", "brightness", 100));
 
   init_adc_cal();
 
@@ -154,20 +153,14 @@ void setup()
   // Move voltage readout to top
   lv_obj_set_parent(objects.voltage, lv_layer_top());
 
-  // Set initial value for brightness slider
-  lv_slider_set_value(objects.brightness_slider, brightness_get(125), LV_ANIM_OFF);
-
-  // Set EEPROM background
-  lv_style_t *style = get_style_main_background_MAIN_DEFAULT();
-  uint16_t bg_idx = bg_get_index(0);
-  lv_style_set_bg_img_src(style, images[bg_idx].img_dsc);
-
   // Initialize default layout
   layout_init();
 
   Serial.println("Setup complete.");
 
   keyboard_init(objects.my_keyboard, objects.my_textarea);
+
+  init_preferences();
 }
 
 void loop()
@@ -182,8 +175,8 @@ void loop()
 
   static float lowestPercent = 100.0f; // start at 100%
 
-  // take one sample about every 33 ms
-  if (millis() - lastSample >= 33)
+  // take one sample about every 50 ms
+  if (millis() - lastSample >= 50)
   {
     int raw = adc1_get_raw(ADC_CHANNEL); // 0..4095
     acc += (uint32_t)raw;
@@ -192,7 +185,7 @@ void loop()
   }
 
   // update display about once per second
-  if ((millis() - lastUpdate) >= 1000 && sampleCount > 0)
+  if ((millis() - lastUpdate) >= 2000 && sampleCount > 0)
   {
     // Average as before
     uint16_t adcRaw = acc / sampleCount;
@@ -206,68 +199,70 @@ void loop()
     // Apply divider
     vOutInstant = vOutInstant * ((R1 + R2) / R2); // R1 top, R2 bottom
 
-    // --- Determine state ---
-    float percent = 0;
-    bool charging = false;
+    lv_label_set_text(objects.voltage, dtostrf(vOutInstant, 4, 2, voltageBuf));
 
-    if (vOutInstant >= V_CHARGING)
-    {
-      // 4.16 V or above → charging
-      percent = 100.0f;
-      charging = true;
-    }
-    else if (vOutInstant >= V_FULL)
-    {
-      // Between 4.13 and 4.16 → full
-      percent = 100.0f;
-    }
-    else
-    {
-      // Below 4.13 → scale between V_MIN and V_FULL
-      percent = (vOutInstant - V_MIN) / (V_FULL - V_MIN) * 100.0f;
-      if (percent < 0)
-        percent = 0;
-      if (percent > 100)
-        percent = 100;
-    }
+    // // --- Determine state ---
+    // float percent = 0;
+    // bool charging = false;
 
-    // if (percent < lowestPercent)
-    {
-      lowestPercent = percent; // update when new lower value found
-    }
+    // if (vOutInstant >= V_CHARGING)
+    // {
+    //   // 4.16 V or above → charging
+    //   percent = 100.0f;
+    //   charging = true;
+    // }
+    // else if (vOutInstant >= V_FULL)
+    // {
+    //   // Between 4.13 and 4.16 → full
+    //   percent = 100.0f;
+    // }
+    // else
+    // {
+    //   // Below 4.13 → scale between V_MIN and V_FULL
+    //   percent = (vOutInstant - V_MIN) / (V_FULL - V_MIN) * 100.0f;
+    //   if (percent < 0)
+    //     percent = 0;
+    //   if (percent > 100)
+    //     percent = 100;
+    // }
 
-    // --- Format label ---
-    char buf[32];
-    if (charging)
-    {
-      snprintf(buf, sizeof(buf), "CHG", lowestPercent);
-    }
-    else if (percent == 100.0f)
-    {
-      snprintf(buf, sizeof(buf), "%.0f%%", lowestPercent);
-    }
-    else
-    {
-      snprintf(buf, sizeof(buf), "%.0f%%", lowestPercent);
-    }
-    lv_label_set_text(objects.voltage, buf);
+    // // if (percent < lowestPercent)
+    // {
+    //   lowestPercent = percent; // update when new lower value found
+    // }
 
-    // --- Color ---
-    if (charging)
-    {
-      lv_obj_set_style_text_color(objects.voltage,
-                                  lv_color_hex(0x00FF00), 0);
-    }
-    else if (percent < 20.0f)
-    {
-      lv_obj_set_style_text_color(objects.voltage,
-                                  lv_color_hex(0xFF0000), 0);
-    }
-    else
-    {
-      lv_obj_set_style_text_color(objects.voltage,
-                                  lv_color_hex(0xFFFFFF), 0);
-    }
+    // // --- Format label ---
+    // char buf[32];
+    // if (charging)
+    // {
+    //   snprintf(buf, sizeof(buf), "CHG", lowestPercent);
+    // }
+    // else if (percent == 100.0f)
+    // {
+    //   snprintf(buf, sizeof(buf), "%.0f%%", lowestPercent);
+    // }
+    // else
+    // {
+    //   snprintf(buf, sizeof(buf), "%.0f%%", lowestPercent);
+    // }
+    // lv_label_set_text(objects.voltage, buf);
+
+    // // --- Color ---
+    // if (charging)
+    // {
+    //   lv_obj_set_style_text_color(objects.voltage,
+    //                               lv_color_hex(0x00FF00), 0);
+    // }
+    // else if (percent < 20.0f)
+    // {
+    //   lv_obj_set_style_text_color(objects.voltage,
+    //                               lv_color_hex(0xFF0000), 0);
+    // }
+    // else
+    // {
+    //   lv_obj_set_style_text_color(objects.voltage,
+    //                               lv_color_hex(0xFFFFFF), 0);
+    // }
 
     lastUpdate = millis();
   }

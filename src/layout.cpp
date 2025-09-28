@@ -1,10 +1,6 @@
-// layout.cpp — implementation of commander‑damage button layouts
 #include "layout.h"
 #include "ui/ui.h"
 
-/* ---------------------------------------------------------
- * Rect helper
- * --------------------------------------------------------*/
 typedef struct
 {
     uint16_t x; /* left   */
@@ -133,6 +129,9 @@ lv_obj_t *ml_2_cmd_labels[6];
 lv_obj_t *ml_1_cmd_name_labels[6];
 
 lv_obj_t *ml_2_cmd_name_labels[6];
+
+uint8_t ml_layout_count = 4;
+uint8_t sl_layout_count = 4;
 
 /* ---------------------------------------------------------
  * Apply layout to up to six buttons.

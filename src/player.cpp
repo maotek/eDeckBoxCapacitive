@@ -23,6 +23,9 @@ ml_player_t ml_players[6] = {
 uint8_t sl_current_player_idx = 0;
 uint8_t ml_current_player_idx = 0;
 
+// uint8_t sl_edh_life = 40;
+// uint8_t sl_1v1_life = 20;
+
 GameMode current_game_mode;
 
 /* -------------------------------------------------------------------- */
@@ -59,5 +62,14 @@ void ml_player_set_nickname(uint8_t id, const char *name)
     {
         strncpy(ml_players[id].nickname, name, sizeof(ml_players[id].nickname) - 1);
         ml_players[id].nickname[sizeof(ml_players[id].nickname) - 1] = '\0'; // ensure null-termination
+    }
+}
+
+void sl_set_edh_life(uint8_t life)
+{
+    // Set life for all players in EDH mode
+    for (int i = 0; i < 6; i++)
+    {
+        sl_players[i].dmg_taken = 0; // Reset damage taken
     }
 }

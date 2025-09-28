@@ -21,6 +21,8 @@ typedef enum
     ACT_MANA_COLORLESS_INCR = 10,
     ACT_MANA_COLORLESS_DECR = 11,
 
+    ACT_MANA_RESET = 12,
+
     /* --- navigation ------------------------------------------------ */
     ACT_OPEN_ABOUT = 100,
     ACT_OPEN_MENU = 101,

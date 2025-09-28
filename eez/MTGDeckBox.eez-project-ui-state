@@ -1,6 +1,6 @@
 {
   "navigation": {
-    "selectedUserPageObject": "[MTGDeckBox.eez-project]:/userPages/4",
+    "selectedUserPageObject": "[MTGDeckBox.eez-project]:/userPages/11",
     "selectedStyleObject": "[MTGDeckBox.eez-project]:/lvglStyles/styles/1",
     "selectedFontObject": "[MTGDeckBox.eez-project]:/fonts/5",
     "selectedBitmapObject": "[MTGDeckBox.eez-project]:/bitmaps/9",
@@ -197,10 +197,10 @@
                 {
                   "type": "tab",
                   "id": "#e3f7a34e-4c3a-460c-850f-cff7180b3696",
-                  "name": "Settings",
+                  "name": "MultiLifecount",
                   "component": "editor",
                   "config": {
-                    "objectPath": "[MTGDeckBox.eez-project]:/userPages/4",
+                    "objectPath": "[MTGDeckBox.eez-project]:/userPages/11",
                     "permanent": false
                   },
                   "icon": "svg:page"
@@ -242,7 +242,7 @@
                 {
                   "type": "tab",
                   "id": "#5bd9b33a-40be-42ed-8b26-1d2dbaef3621",
-                  "name": "LifeCountSelect",
+                  "name": "counter_select",
                   "component": "editor",
                   "config": {
                     "objectPath": "[MTGDeckBox.eez-project]:/userPages/5",
@@ -1037,26 +1037,25 @@
           "1": {},
           "2": {
             "0": {
-              "0": {
-                "$selected": true
-              }
+              "0": {}
             },
             "1": {
               "0": {}
             },
             "2": {},
             "3": {},
-            "4": {}
+            "4": {},
+            "$selected": true
           },
           "3": {}
         }
       },
       "transform": {
         "translate": {
-          "x": -22.961270871985164,
-          "y": -235.73581478045762
+          "x": -106.96127087198516,
+          "y": -221.73581478045762
         },
-        "scale": 1.75
+        "scale": 1.5
       },
       "timeline": {
         "isEditorActive": false,
@@ -1101,10 +1100,10 @@
       },
       "transform": {
         "translate": {
-          "x": -68.37443140193159,
-          "y": -240.67689643689647
+          "x": -108.6035033022535,
+          "y": -278.3313791763793
         },
-        "scale": 1.5
+        "scale": 1.75
       },
       "timeline": {
         "isEditorActive": false,
@@ -1129,7 +1128,7 @@
           "x": -214,
           "y": -230
         },
-        "scale": 1.5
+        "scale": 1.75
       },
       "timeline": {
         "isEditorActive": false,
@@ -1144,10 +1143,13 @@
           "0": {},
           "1": {},
           "3": {
-            "1": {
-              "1": {
+            "0": {
+              "0": {
                 "$selected": true
               }
+            },
+            "1": {
+              "1": {}
             }
           }
         }
@@ -1157,7 +1159,7 @@
           "x": -120,
           "y": -260
         },
-        "scale": 1.5
+        "scale": 1.75
       },
       "timeline": {
         "isEditorActive": false,
@@ -1171,6 +1173,7 @@
         "0": {
           "0": {},
           "1": {},
+          "2": {},
           "3": {},
           "4": {},
           "5": {}
@@ -1181,7 +1184,7 @@
           "x": -120,
           "y": -260
         },
-        "scale": 1.5
+        "scale": 1.75
       },
       "timeline": {
         "isEditorActive": false,
@@ -1195,9 +1198,23 @@
         "0": {
           "0": {},
           "1": {
+            "0": {},
             "2": {},
             "3": {
-              "$selected": true
+              "0": {
+                "0": {
+                  "$selected": true
+                }
+              },
+              "1": {},
+              "2": {
+                "0": {}
+              },
+              "3": {},
+              "4": {
+                "0": {}
+              },
+              "5": {}
             }
           },
           "2": {}
@@ -1206,9 +1223,9 @@
       "transform": {
         "translate": {
           "x": -221.03541666666672,
-          "y": -268.4361111111111
+          "y": -268.43611111111113
         },
-        "scale": 1.5
+        "scale": 1.75
       },
       "timeline": {
         "isEditorActive": false,
@@ -1222,9 +1239,7 @@
         "0": {
           "0": {},
           "5": {
-            "3": {
-              "$selected": true
-            }
+            "3": {}
           },
           "6": {}
         }
@@ -1234,7 +1249,7 @@
           "x": -213,
           "y": -247
         },
-        "scale": 1.5
+        "scale": 1.75
       },
       "timeline": {
         "isEditorActive": false,
@@ -1247,10 +1262,10 @@
       "selection": {
         "0": {
           "0": {},
-          "1": {},
-          "2": {
+          "1": {
             "$selected": true
           },
+          "2": {},
           "4": {},
           "5": {},
           "7": {},
@@ -1262,7 +1277,7 @@
           "x": -167.5275,
           "y": -347.25
         },
-        "scale": 1.5
+        "scale": 1.75
       },
       "timeline": {
         "isEditorActive": false,
@@ -1285,7 +1300,7 @@
           "x": -194,
           "y": -247
         },
-        "scale": 1.5
+        "scale": 1.75
       },
       "timeline": {
         "isEditorActive": false,
@@ -1339,7 +1354,7 @@
           "x": -176.30416666666667,
           "y": -226.3291666666667
         },
-        "scale": 1.5
+        "scale": 1.75
       },
       "timeline": {
         "isEditorActive": false,
@@ -1353,7 +1368,8 @@
         "0": {
           "0": {},
           "1": {
-            "0": {
+            "0": {},
+            "1": {
               "$selected": true
             }
           },
@@ -1363,7 +1379,9 @@
           "5": {},
           "6": {},
           "7": {},
-          "8": {}
+          "8": {
+            "0": {}
+          }
         }
       },
       "transform": {
@@ -1371,7 +1389,7 @@
           "x": -147.59583333333333,
           "y": -284.64166666666665
         },
-        "scale": 1.5
+        "scale": 1.75
       },
       "timeline": {
         "isEditorActive": false,
@@ -1385,11 +1403,11 @@
         "0": {
           "0": {},
           "1": {},
-          "2": {},
-          "3": {},
-          "4": {
+          "2": {
             "$selected": true
           },
+          "3": {},
+          "4": {},
           "5": {},
           "7": {}
         }
@@ -1399,7 +1417,7 @@
           "x": -120,
           "y": -360
         },
-        "scale": 1.5
+        "scale": 1.75
       },
       "timeline": {
         "isEditorActive": false,
@@ -1411,10 +1429,21 @@
     "[MTGDeckBox.eez-project]:/userPages/13[flow-state]": {
       "selection": {
         "0": {
+          "1": {
+            "0": {}
+          },
+          "3": {
+            "0": {}
+          },
           "4": {},
           "5": {},
           "6": {
-            "0": {},
+            "0": {
+              "0": {},
+              "1": {
+                "$selected": true
+              }
+            },
             "1": {},
             "2": {},
             "3": {
@@ -1430,7 +1459,7 @@
           "x": -192.90000000000003,
           "y": -189.66071428571428
         },
-        "scale": 1.5
+        "scale": 1.75
       },
       "timeline": {
         "isEditorActive": false,
@@ -1460,6 +1489,6 @@
   ],
   "showInactiveFlowsInDebugger": true,
   "globalFlowZoom": true,
-  "flowZoom": 1.5,
+  "flowZoom": 1.75,
   "implementationLanguage": "C"
 }

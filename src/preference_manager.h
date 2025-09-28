@@ -5,21 +5,15 @@
 extern "C"
 {
 #endif
+    uint8_t get_value_with_key(const char *ns, const char *key, uint8_t def_val);
 
-    // Save current background index to NVS ("ui"/"bg_idx").
-    // Returns true if a new value was written (changed), false otherwise.
-    bool bg_save_index(uint16_t idx);
+    bool set_value_with_key(const char *ns, const char *key, uint8_t val);
 
-    // Read saved background index; returns def_val if not present.
-    uint16_t bg_get_index(uint16_t def_val);
+    void get_string_with_key(const char *ns, const char *key, char *buf, uint8_t bufsize, const char *def_val);
 
-    // Save current brightness level to NVS ("ui"/"brightness").
-    // Returns true if a new value was written (changed), false otherwise.
-    bool brightness_save(uint16_t level);
+    bool set_string_with_key(const char *ns, const char *key, const char *val);
 
-    // Read saved brightness level; returns def_val if not present.
-    uint16_t brightness_get(uint16_t def_val);
-
+    void init_preferences(void);
 #ifdef __cplusplus
 }
 #endif

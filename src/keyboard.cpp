@@ -6,6 +6,7 @@
 #include "layout.h" // loadScreen, SCREEN_ID_...
 #include "ui/styles.h"
 #include "ui/images.h"
+#include "preference_manager.h"
 
 // --- Custom key map & ctrl map (User1) ---
 static const char *kb_map_user1[] = {
@@ -81,6 +82,10 @@ static void my_keyboard_event_cb(lv_event_t *e)
                 sl_players[sl_current_player_idx].dmg_dealt,
                 sl_players[sl_current_player_idx].dmg_taken);
 
+            char key[16];
+            snprintf(key, sizeof(key), "p%u_name", sl_current_player_idx + 1);
+            set_string_with_key("sl", key, sl_players[sl_current_player_idx].nickname);
+
             loadScreen(SCREEN_ID_SINGLE_LIFECOUNT_OPPONENT_ADJUST_COUNT);
             return;
         }
@@ -99,7 +104,15 @@ static void my_keyboard_event_cb(lv_event_t *e)
                 ml_2_cmd_name_labels[ml_current_player_idx],
                 ml_players[ml_current_player_idx].nickname);
 
+            lv_label_set_text(
+                objects.ml_player_label,
+                ml_players[ml_current_player_idx].nickname);
+
             lv_textarea_set_text(ta, "");
+
+            char key[16];
+            snprintf(key, sizeof(key), "p%u_name", ml_current_player_idx + 1);
+            set_string_with_key("ml", key, ml_players[ml_current_player_idx].nickname);
 
             loadScreen(SCREEN_ID_MULTI_LIFECOUNT_OPPONENT_ADJUST_COUNT);
             return;

@@ -40,6 +40,9 @@ extern "C"
     extern uint8_t sl_current_player_idx;
     extern uint8_t ml_current_player_idx;
 
+    extern uint8_t sl_edh_life;
+    extern uint8_t sl_1v1_life;
+
     extern GameMode current_game_mode;
 
     /* --- helpers --------------------------------------------------------- */
@@ -49,6 +52,9 @@ extern "C"
 
     void ml_player_add_hp(uint8_t id, int8_t delta);
     void ml_player_set_nickname(uint8_t id, const char *name);
+
+    void sl_set_edh_life(uint8_t life);
+    void sl_set_1v1_life(uint8_t life);
 
 #ifdef __cplusplus
 } /* extern "C" */

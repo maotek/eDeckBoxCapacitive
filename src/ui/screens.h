@@ -56,7 +56,7 @@ typedef struct _objects_t {
     lv_obj_t *obj26;
     lv_obj_t *single_lifecount_bg_label;
     lv_obj_t *single_lifecount_edh_container;
-    lv_obj_t *single_lifecount_edh_life_label;
+    lv_obj_t *sl_edh_life_label;
     lv_obj_t *single_lifecount_edh_btn1;
     lv_obj_t *single_lifecount_edh_btn1_label;
     lv_obj_t *single_lifecount_edh_btn2;
@@ -70,7 +70,7 @@ typedef struct _objects_t {
     lv_obj_t *single_lifecount_edh_btn6;
     lv_obj_t *single_lifecount_edh_btn6_label;
     lv_obj_t *single_lifecount_1v1_container;
-    lv_obj_t *single_lifecount_1v1_life_label;
+    lv_obj_t *sl_1v1_life_label;
     lv_obj_t *obj27;
     lv_obj_t *obj28;
     lv_obj_t *obj29;
@@ -88,12 +88,12 @@ typedef struct _objects_t {
     lv_obj_t *single_lifecount_1v1_settings_initiallife_slider;
     lv_obj_t *obj33;
     lv_obj_t *sl_opponent_namelabel;
-    lv_obj_t *single_lifecount_edh_commander_dealt_label;
+    lv_obj_t *sl_edh_commander_dealt_label;
     lv_obj_t *obj34;
     lv_obj_t *obj35;
     lv_obj_t *obj36;
     lv_obj_t *obj37;
-    lv_obj_t *single_lifecount_edh_commander_taken_label;
+    lv_obj_t *sl_edh_commander_taken_label;
     lv_obj_t *obj38;
     lv_obj_t *my_keyboard;
     lv_obj_t *my_textarea;
@@ -108,14 +108,15 @@ typedef struct _objects_t {
     lv_obj_t *mana_colorless_label;
     lv_obj_t *obj42;
     lv_obj_t *obj43;
+    lv_obj_t *obj44;
     lv_obj_t *ml_1_btn1;
     lv_obj_t *ml_1_btn1_label;
     lv_obj_t *ml_1_btn1_name;
     lv_obj_t *ml_1_btn2;
     lv_obj_t *ml_1_btn2_label;
     lv_obj_t *ml_1_btn2_name;
-    lv_obj_t *obj44;
     lv_obj_t *obj45;
+    lv_obj_t *obj46;
     lv_obj_t *ml_1_btn3;
     lv_obj_t *ml_1_btn3_label;
     lv_obj_t *ml_1_btn3_name;
@@ -128,17 +129,17 @@ typedef struct _objects_t {
     lv_obj_t *ml_1_btn6;
     lv_obj_t *ml_1_btn6_label;
     lv_obj_t *ml_1_btn6_name;
-    lv_obj_t *obj46;
+    lv_obj_t *obj47;
     lv_obj_t *multi_lifecount_settings_playercount_label;
     lv_obj_t *multi_lifecount_settings_player_slider;
     lv_obj_t *multi_lifecount_settings_initiallife_label;
     lv_obj_t *multi_lifecount_settings_initiallife_slider;
-    lv_obj_t *obj47;
     lv_obj_t *obj48;
     lv_obj_t *obj49;
     lv_obj_t *obj50;
     lv_obj_t *obj51;
     lv_obj_t *obj52;
+    lv_obj_t *obj53;
     lv_obj_t *ml_life_label;
     lv_obj_t *ml_2_btn1;
     lv_obj_t *ml_2_btn1_label;
@@ -158,6 +159,7 @@ typedef struct _objects_t {
     lv_obj_t *ml_2_btn6;
     lv_obj_t *ml_2_btn6_label;
     lv_obj_t *ml_2_btn6_name;
+    lv_obj_t *ml_player_label;
 } objects_t;
 
 extern objects_t objects;
