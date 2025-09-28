@@ -1,23 +1,14 @@
 #include "Arduino.h"
 #include <lvgl.h>
 #include <TFT_eSPI.h>
-
 #include "ui/ui.h"
 #include "CST820.h"
-
 #include "esp_heap_caps.h"
-
 #include "preference_manager.h"
 #include "ui/styles.h"
 #include "ui/images.h"
-
 #include "player.h"
-
 #include "layout.h"
-
-#include <SD.h>
-#include "sd_lib.h"
-
 #include "keyboard.h"
 
 // SPIClass hspi(HSPI);
@@ -62,11 +53,6 @@ TFT_eSPI tft = TFT_eSPI();
 
 static lv_color_t draw_buf[TFT_HOR_RES * BUFFER_LINES];
 
-// #define DRAW_BUF_SIZE (TFT_HOR_RES * TFT_VER_RES / 8 * (LV_COLOR_DEPTH / 8))
-
-// uint32_t *draw_buf = nullptr;
-// uint32_t *draw_buf2 = nullptr;
-
 lv_disp_draw_buf_t draw_buf_struct;
 lv_disp_drv_t disp_drv;
 lv_indev_drv_t indev_drv;
@@ -108,14 +94,6 @@ void my_touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
   }
 }
 
-// void print_heap()
-// {
-//   size_t free8 = heap_caps_get_free_size(MALLOC_CAP_8BIT);
-//   size_t larg8 = heap_caps_get_largest_free_block(MALLOC_CAP_8BIT);
-//   size_t free32 = heap_caps_get_free_size(MALLOC_CAP_32BIT);
-//   Serial.printf("Free8=%u, Largest8=%u, Free32=%u\n", (unsigned)free8, (unsigned)larg8, (unsigned)free32);
-// }
-
 // Resistor values in ohms
 const float R1 = 33000.0;
 const float R2 = 100000.0;
@@ -144,21 +122,6 @@ void setup()
   // START MAIN
   lv_init();
 
-  // lv_log_register_print_cb([](const char *buf)
-  //                          { Serial.println(buf); print_heap(); Serial.println(sd_open_ct); });
-
-  // hspi.begin(18, 19, 23); // CLK, MISO, MOSI for HSPI
-
-  // if (!SD.begin(5, hspi))
-  // {
-  //   Serial.println("SD init failed");
-  // }
-  // else
-  // {
-  //   Serial.println("SD initialized");
-  //   my_sd_fs_init();
-  // }
-
   touch.begin();
 
   pinMode(17, OUTPUT);
@@ -167,16 +130,6 @@ void setup()
   digitalWrite(17, HIGH);
   digitalWrite(16, HIGH);
   digitalWrite(4, HIGH);
-
-  // draw_buf = (uint32_t *)heap_caps_malloc(sizeof(lv_color_t) * TFT_HOR_RES * BUFFER_LINES, MALLOC_CAP_DMA | MALLOC_CAP_INTERNAL);
-  // draw_buf2 = (uint32_t *)heap_caps_malloc(sizeof(lv_color_t) * TFT_HOR_RES * BUFFER_LINES, MALLOC_CAP_DMA | MALLOC_CAP_INTERNAL);
-
-  // if (!draw_buf || !draw_buf2)
-  // {
-  //   Serial.println("Failed to allocate LVGL draw buffers!");
-  //   while (true)
-  //     ;
-  // }
 
   // LVGL draw buffer setup
   lv_disp_draw_buf_init(&draw_buf_struct, draw_buf, nullptr, TFT_HOR_RES * BUFFER_LINES);
@@ -210,13 +163,11 @@ void setup()
   lv_style_set_bg_img_src(style, images[bg_idx].img_dsc);
 
   // Initialize default layout
-  single_lifecount_edh_layout_init();
+  layout_init();
 
   Serial.println("Setup complete.");
 
   keyboard_init(objects.my_keyboard, objects.my_textarea);
-
-  // print_heap();
 }
 
 void loop()

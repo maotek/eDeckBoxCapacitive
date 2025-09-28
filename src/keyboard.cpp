@@ -61,26 +61,49 @@ static void my_keyboard_event_cb(lv_event_t *e)
         if (!entered)
             entered = "";
 
-        // Persist/update UI (uses your existing globals & functions)
-        singlecount_player_set_nickname(
-            singlecount_current_player_idx,
-            entered);
+        if (current_game_mode == GAME_MODE_SL)
+        {
+            // Persist/update UI (uses your existing globals & functions)
+            sl_player_set_nickname(
+                sl_current_player_idx,
+                entered);
 
-        lv_label_set_text(
-            objects.single_lifecount_opponent_namelabel,
-            singlecount_players[singlecount_current_player_idx].nickname);
+            lv_label_set_text(
+                objects.sl_opponent_namelabel,
+                sl_players[sl_current_player_idx].nickname);
 
-        lv_textarea_set_text(ta, "");
+            lv_textarea_set_text(ta, "");
 
-        lv_label_set_text_fmt(
-            cmd_btn_label[singlecount_current_player_idx],
-            "%s\nTo: %d\nFrom: %d",
-            singlecount_players[singlecount_current_player_idx].nickname,
-            singlecount_players[singlecount_current_player_idx].dmg_dealt,
-            singlecount_players[singlecount_current_player_idx].dmg_taken);
+            lv_label_set_text_fmt(
+                sl_cmd_labels[sl_current_player_idx],
+                "%s\nTo: %d\nFrom: %d",
+                sl_players[sl_current_player_idx].nickname,
+                sl_players[sl_current_player_idx].dmg_dealt,
+                sl_players[sl_current_player_idx].dmg_taken);
 
-        loadScreen(SCREEN_ID_SINGLE_LIFECOUNT_OPPONENT_ADJUST_COUNT);
-        return;
+            loadScreen(SCREEN_ID_SINGLE_LIFECOUNT_OPPONENT_ADJUST_COUNT);
+            return;
+        }
+        else
+        {
+            // Persist/update UI (uses your existing globals & functions)
+            ml_player_set_nickname(
+                ml_current_player_idx,
+                entered);
+
+            lv_label_set_text(
+                ml_1_cmd_name_labels[ml_current_player_idx],
+                ml_players[ml_current_player_idx].nickname);
+
+            lv_label_set_text(
+                ml_2_cmd_name_labels[ml_current_player_idx],
+                ml_players[ml_current_player_idx].nickname);
+
+            lv_textarea_set_text(ta, "");
+
+            loadScreen(SCREEN_ID_MULTI_LIFECOUNT_OPPONENT_ADJUST_COUNT);
+            return;
+        }
     }
 
     // Default LVGL keyboard behavior is already handled by lv_keyboard,

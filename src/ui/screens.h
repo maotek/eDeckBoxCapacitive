@@ -13,7 +13,7 @@ typedef struct _objects_t {
     lv_obj_t *about;
     lv_obj_t *image;
     lv_obj_t *settings;
-    lv_obj_t *life_count_select;
+    lv_obj_t *counter_select;
     lv_obj_t *single_lifecount;
     lv_obj_t *single_lifecount_settings;
     lv_obj_t *single_lifecount_opponent_adjust_count;
@@ -87,7 +87,7 @@ typedef struct _objects_t {
     lv_obj_t *single_lifecount_1v1_settings_initiallife_label;
     lv_obj_t *single_lifecount_1v1_settings_initiallife_slider;
     lv_obj_t *obj33;
-    lv_obj_t *single_lifecount_opponent_namelabel;
+    lv_obj_t *sl_opponent_namelabel;
     lv_obj_t *single_lifecount_edh_commander_dealt_label;
     lv_obj_t *obj34;
     lv_obj_t *obj35;
@@ -108,32 +108,56 @@ typedef struct _objects_t {
     lv_obj_t *mana_colorless_label;
     lv_obj_t *obj42;
     lv_obj_t *obj43;
+    lv_obj_t *ml_1_btn1;
+    lv_obj_t *ml_1_btn1_label;
+    lv_obj_t *ml_1_btn1_name;
+    lv_obj_t *ml_1_btn2;
+    lv_obj_t *ml_1_btn2_label;
+    lv_obj_t *ml_1_btn2_name;
     lv_obj_t *obj44;
     lv_obj_t *obj45;
+    lv_obj_t *ml_1_btn3;
+    lv_obj_t *ml_1_btn3_label;
+    lv_obj_t *ml_1_btn3_name;
+    lv_obj_t *ml_1_btn4;
+    lv_obj_t *ml_1_btn4_name;
+    lv_obj_t *ml_1_btn4_label;
+    lv_obj_t *ml_1_btn5;
+    lv_obj_t *ml_1_btn5_name;
+    lv_obj_t *ml_1_btn5_label;
+    lv_obj_t *ml_1_btn6;
+    lv_obj_t *ml_1_btn6_label;
+    lv_obj_t *ml_1_btn6_name;
     lv_obj_t *obj46;
+    lv_obj_t *multi_lifecount_settings_playercount_label;
+    lv_obj_t *multi_lifecount_settings_player_slider;
+    lv_obj_t *multi_lifecount_settings_initiallife_label;
+    lv_obj_t *multi_lifecount_settings_initiallife_slider;
     lv_obj_t *obj47;
     lv_obj_t *obj48;
     lv_obj_t *obj49;
     lv_obj_t *obj50;
     lv_obj_t *obj51;
     lv_obj_t *obj52;
-    lv_obj_t *multi_lifecount_settings_playercount_label;
-    lv_obj_t *multi_lifecount_settings_player_slider;
-    lv_obj_t *multi_lifecount_settings_initiallife_label;
-    lv_obj_t *multi_lifecount_settings_initiallife_slider;
-    lv_obj_t *obj53;
-    lv_obj_t *obj54;
-    lv_obj_t *obj55;
-    lv_obj_t *obj56;
-    lv_obj_t *obj57;
-    lv_obj_t *obj58;
-    lv_obj_t *obj59;
-    lv_obj_t *single_lifecount_edh_btn1_1;
-    lv_obj_t *single_lifecount_edh_btn2_1;
-    lv_obj_t *single_lifecount_edh_btn3_1;
-    lv_obj_t *single_lifecount_edh_btn4_1;
-    lv_obj_t *single_lifecount_edh_btn5_1;
-    lv_obj_t *single_lifecount_edh_btn6_1;
+    lv_obj_t *ml_life_label;
+    lv_obj_t *ml_2_btn1;
+    lv_obj_t *ml_2_btn1_label;
+    lv_obj_t *ml_2_btn1_name;
+    lv_obj_t *ml_2_btn2;
+    lv_obj_t *ml_2_btn2_label;
+    lv_obj_t *ml_2_btn2_name;
+    lv_obj_t *ml_2_btn3;
+    lv_obj_t *ml_2_btn3_name;
+    lv_obj_t *ml_2_btn3_label;
+    lv_obj_t *ml_2_btn4;
+    lv_obj_t *ml_2_btn4_label;
+    lv_obj_t *ml_2_btn4_name;
+    lv_obj_t *ml_2_btn5;
+    lv_obj_t *ml_2_btn5_label;
+    lv_obj_t *ml_2_btn5_name;
+    lv_obj_t *ml_2_btn6;
+    lv_obj_t *ml_2_btn6_label;
+    lv_obj_t *ml_2_btn6_name;
 } objects_t;
 
 extern objects_t objects;
@@ -144,7 +168,7 @@ enum ScreensEnum {
     SCREEN_ID_ABOUT = 3,
     SCREEN_ID_IMAGE = 4,
     SCREEN_ID_SETTINGS = 5,
-    SCREEN_ID_LIFE_COUNT_SELECT = 6,
+    SCREEN_ID_COUNTER_SELECT = 6,
     SCREEN_ID_SINGLE_LIFECOUNT = 7,
     SCREEN_ID_SINGLE_LIFECOUNT_SETTINGS = 8,
     SCREEN_ID_SINGLE_LIFECOUNT_OPPONENT_ADJUST_COUNT = 9,
@@ -170,8 +194,8 @@ void tick_screen_image();
 void create_screen_settings();
 void tick_screen_settings();
 
-void create_screen_life_count_select();
-void tick_screen_life_count_select();
+void create_screen_counter_select();
+void tick_screen_counter_select();
 
 void create_screen_single_lifecount();
 void tick_screen_single_lifecount();

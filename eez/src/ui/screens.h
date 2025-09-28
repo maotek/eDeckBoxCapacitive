@@ -13,7 +13,7 @@ typedef struct _objects_t {
     lv_obj_t *about;
     lv_obj_t *image;
     lv_obj_t *settings;
-    lv_obj_t *life_count_select;
+    lv_obj_t *counter_select;
     lv_obj_t *single_lifecount;
     lv_obj_t *single_lifecount_settings;
     lv_obj_t *single_lifecount_opponent_adjust_count;
@@ -108,13 +108,19 @@ typedef struct _objects_t {
     lv_obj_t *mana_colorless_label;
     lv_obj_t *obj42;
     lv_obj_t *obj43;
+    lv_obj_t *ml_1_btn1;
     lv_obj_t *obj44;
+    lv_obj_t *ml_1_btn2;
     lv_obj_t *obj45;
     lv_obj_t *obj46;
     lv_obj_t *obj47;
+    lv_obj_t *ml_1_btn3;
     lv_obj_t *obj48;
+    lv_obj_t *ml_1_btn4;
     lv_obj_t *obj49;
+    lv_obj_t *ml_1_btn5;
     lv_obj_t *obj50;
+    lv_obj_t *ml_1_btn6;
     lv_obj_t *obj51;
     lv_obj_t *obj52;
     lv_obj_t *multi_lifecount_settings_playercount_label;
@@ -144,7 +150,7 @@ enum ScreensEnum {
     SCREEN_ID_ABOUT = 3,
     SCREEN_ID_IMAGE = 4,
     SCREEN_ID_SETTINGS = 5,
-    SCREEN_ID_LIFE_COUNT_SELECT = 6,
+    SCREEN_ID_COUNTER_SELECT = 6,
     SCREEN_ID_SINGLE_LIFECOUNT = 7,
     SCREEN_ID_SINGLE_LIFECOUNT_SETTINGS = 8,
     SCREEN_ID_SINGLE_LIFECOUNT_OPPONENT_ADJUST_COUNT = 9,
@@ -170,8 +176,8 @@ void tick_screen_image();
 void create_screen_settings();
 void tick_screen_settings();
 
-void create_screen_life_count_select();
-void tick_screen_life_count_select();
+void create_screen_counter_select();
+void tick_screen_counter_select();
 
 void create_screen_single_lifecount();
 void tick_screen_single_lifecount();

@@ -323,7 +323,7 @@ void create_screen_about() {
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.obj8 = obj;
-            lv_obj_set_pos(obj, 94, 41);
+            lv_obj_set_pos(obj, 94, 55);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_obj_set_style_text_font(obj, &ui_font_spec_heading, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -332,15 +332,16 @@ void create_screen_about() {
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.obj9 = obj;
-            lv_obj_set_pos(obj, 61, 63);
+            lv_obj_set_pos(obj, 61, 77);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_font(obj, &ui_font_roboto_medium_26, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_label_set_text(obj, "eDeckBox");
         }
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.obj10 = obj;
-            lv_obj_set_pos(obj, 65, 95);
+            lv_obj_set_pos(obj, 65, 109);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_obj_set_style_text_font(obj, &ui_font_spec_heading, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -349,7 +350,7 @@ void create_screen_about() {
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.obj11 = obj;
-            lv_obj_set_pos(obj, 2, 117);
+            lv_obj_set_pos(obj, 2, 131);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_align(obj, LV_ALIGN_TOP_MID, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -358,7 +359,7 @@ void create_screen_about() {
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.obj12 = obj;
-            lv_obj_set_pos(obj, 47, 149);
+            lv_obj_set_pos(obj, 47, 163);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_obj_set_style_text_font(obj, &ui_font_spec_heading, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -367,7 +368,7 @@ void create_screen_about() {
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.obj13 = obj;
-            lv_obj_set_pos(obj, 91, 171);
+            lv_obj_set_pos(obj, 91, 185);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -387,7 +388,7 @@ void create_screen_about() {
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.obj15 = obj;
-            lv_obj_set_pos(obj, 59, 206);
+            lv_obj_set_pos(obj, 61, 216);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_obj_set_style_text_font(obj, &ui_font_spec_heading, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -396,7 +397,7 @@ void create_screen_about() {
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.obj16 = obj;
-            lv_obj_set_pos(obj, 95, 228);
+            lv_obj_set_pos(obj, 96, 238);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -594,9 +595,9 @@ void create_screen_settings() {
 void tick_screen_settings() {
 }
 
-void create_screen_life_count_select() {
+void create_screen_counter_select() {
     lv_obj_t *obj = lv_obj_create(0);
-    objects.life_count_select = obj;
+    objects.counter_select = obj;
     lv_obj_set_pos(obj, 0, 0);
     lv_obj_set_size(obj, 240, 320);
     add_style_main_background(obj);
@@ -619,7 +620,7 @@ void create_screen_life_count_select() {
             lv_obj_set_style_text_font(obj, &ui_font_roboto_bold_26, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_align(obj, LV_ALIGN_TOP_MID, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_label_set_text(obj, "Life Counter");
+            lv_label_set_text(obj, "Counters");
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
@@ -635,7 +636,7 @@ void create_screen_life_count_select() {
                     lv_obj_set_size(obj, LV_PCT(100), LV_SIZE_CONTENT);
                     add_style_menu_button_text_style(obj);
                     lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    lv_label_set_text(obj, "Single Count");
+                    lv_label_set_text(obj, "Single Counter");
                 }
             }
         }
@@ -653,7 +654,7 @@ void create_screen_life_count_select() {
                     lv_obj_set_size(obj, LV_PCT(100), LV_SIZE_CONTENT);
                     add_style_menu_button_text_style(obj);
                     lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    lv_label_set_text(obj, "Multi Count");
+                    lv_label_set_text(obj, "Multi Counter");
                 }
             }
         }
@@ -697,10 +698,10 @@ void create_screen_life_count_select() {
         }
     }
     
-    tick_screen_life_count_select();
+    tick_screen_counter_select();
 }
 
-void tick_screen_life_count_select() {
+void tick_screen_counter_select() {
 }
 
 void create_screen_single_lifecount() {
@@ -1925,7 +1926,9 @@ void create_screen_multi_lifecount() {
             lv_label_set_text(obj, "");
         }
         {
+            // ml_1_btn1
             lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.ml_1_btn1 = obj;
             lv_obj_set_pos(obj, 10, 10);
             lv_obj_set_size(obj, 100, 80);
             lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)0);
@@ -1956,7 +1959,9 @@ void create_screen_multi_lifecount() {
             }
         }
         {
+            // ml_1_btn2
             lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.ml_1_btn2 = obj;
             lv_obj_set_pos(obj, 130, 10);
             lv_obj_set_size(obj, 100, 80);
             lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)0);
@@ -2027,7 +2032,9 @@ void create_screen_multi_lifecount() {
             }
         }
         {
+            // ml_1_btn3
             lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.ml_1_btn3 = obj;
             lv_obj_set_pos(obj, 10, 96);
             lv_obj_set_size(obj, 100, 80);
             lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)0);
@@ -2058,8 +2065,10 @@ void create_screen_multi_lifecount() {
             }
         }
         {
+            // ml_1_btn4
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            lv_obj_set_pos(obj, 130, 95);
+            objects.ml_1_btn4 = obj;
+            lv_obj_set_pos(obj, 130, 96);
             lv_obj_set_size(obj, 100, 80);
             lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)0);
             add_style_menu_button_style(obj);
@@ -2089,7 +2098,9 @@ void create_screen_multi_lifecount() {
             }
         }
         {
+            // ml_1_btn5
             lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.ml_1_btn5 = obj;
             lv_obj_set_pos(obj, 10, 180);
             lv_obj_set_size(obj, 100, 80);
             lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)0);
@@ -2120,7 +2131,9 @@ void create_screen_multi_lifecount() {
             }
         }
         {
+            // ml_1_btn6
             lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.ml_1_btn6 = obj;
             lv_obj_set_pos(obj, 130, 180);
             lv_obj_set_size(obj, 100, 80);
             lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)0);
@@ -2418,7 +2431,7 @@ void create_screen_multi_lifecount_opponent_adjust_count() {
                     objects.single_lifecount_edh_btn1_1 = obj;
                     lv_obj_set_pos(obj, 10, 7);
                     lv_obj_set_size(obj, 70, 70);
-                    lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)600);
+                    lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)0);
                     add_style_menu_button_style(obj);
                     {
                         lv_obj_t *parent_obj = obj;
@@ -2439,7 +2452,7 @@ void create_screen_multi_lifecount_opponent_adjust_count() {
                     objects.single_lifecount_edh_btn2_1 = obj;
                     lv_obj_set_pos(obj, 86, 7);
                     lv_obj_set_size(obj, 70, 70);
-                    lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)601);
+                    lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)0);
                     add_style_menu_button_style(obj);
                     {
                         lv_obj_t *parent_obj = obj;
@@ -2460,7 +2473,7 @@ void create_screen_multi_lifecount_opponent_adjust_count() {
                     objects.single_lifecount_edh_btn3_1 = obj;
                     lv_obj_set_pos(obj, 163, 8);
                     lv_obj_set_size(obj, 70, 70);
-                    lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)602);
+                    lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)0);
                     add_style_menu_button_style(obj);
                     {
                         lv_obj_t *parent_obj = obj;
@@ -2481,7 +2494,7 @@ void create_screen_multi_lifecount_opponent_adjust_count() {
                     objects.single_lifecount_edh_btn4_1 = obj;
                     lv_obj_set_pos(obj, 10, 82);
                     lv_obj_set_size(obj, 70, 70);
-                    lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)603);
+                    lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)0);
                     add_style_menu_button_style(obj);
                     {
                         lv_obj_t *parent_obj = obj;
@@ -2502,7 +2515,7 @@ void create_screen_multi_lifecount_opponent_adjust_count() {
                     objects.single_lifecount_edh_btn5_1 = obj;
                     lv_obj_set_pos(obj, 86, 82);
                     lv_obj_set_size(obj, 70, 70);
-                    lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)604);
+                    lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)0);
                     add_style_menu_button_style(obj);
                     {
                         lv_obj_t *parent_obj = obj;
@@ -2523,7 +2536,7 @@ void create_screen_multi_lifecount_opponent_adjust_count() {
                     objects.single_lifecount_edh_btn6_1 = obj;
                     lv_obj_set_pos(obj, 163, 82);
                     lv_obj_set_size(obj, 70, 70);
-                    lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)605);
+                    lv_obj_add_event_cb(obj, action_generic_button_cb, LV_EVENT_CLICKED, (void *)0);
                     add_style_menu_button_style(obj);
                     {
                         lv_obj_t *parent_obj = obj;
@@ -2557,7 +2570,7 @@ tick_screen_func_t tick_screen_funcs[] = {
     tick_screen_about,
     tick_screen_image,
     tick_screen_settings,
-    tick_screen_life_count_select,
+    tick_screen_counter_select,
     tick_screen_single_lifecount,
     tick_screen_single_lifecount_settings,
     tick_screen_single_lifecount_opponent_adjust_count,
@@ -2584,7 +2597,7 @@ void create_screens() {
     create_screen_about();
     create_screen_image();
     create_screen_settings();
-    create_screen_life_count_select();
+    create_screen_counter_select();
     create_screen_single_lifecount();
     create_screen_single_lifecount_settings();
     create_screen_single_lifecount_opponent_adjust_count();
