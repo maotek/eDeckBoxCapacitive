@@ -1,8 +1,7 @@
 {
   "navigation": {
-    "selectedUserPageObject": "[MTGDeckBox.eez-project]:/userPages/11",
+    "selectedUserPageObject": "[MTGDeckBox.eez-project]:/userPages/0",
     "selectedStyleObject": "[MTGDeckBox.eez-project]:/lvglStyles/styles/1",
-    "selectedFontObject": "[MTGDeckBox.eez-project]:/fonts/5",
     "selectedBitmapObject": "[MTGDeckBox.eez-project]:/bitmaps/9",
     "subnavigationSelectedItems": {}
   },
@@ -24,6 +23,7 @@
           },
           {
             "type": "border",
+            "selected": 2,
             "size": 209.5,
             "location": "right",
             "children": [
@@ -196,12 +196,23 @@
               "children": [
                 {
                   "type": "tab",
-                  "id": "#e3f7a34e-4c3a-460c-850f-cff7180b3696",
-                  "name": "MultiLifecount",
+                  "id": "#ab113030-ecdd-4ac5-9561-a8f89dc49b17",
+                  "name": "Main",
                   "component": "editor",
                   "config": {
-                    "objectPath": "[MTGDeckBox.eez-project]:/userPages/11",
+                    "objectPath": "[MTGDeckBox.eez-project]:/userPages/0",
                     "permanent": false
+                  },
+                  "icon": "svg:page"
+                },
+                {
+                  "type": "tab",
+                  "id": "#e3f7a34e-4c3a-460c-850f-cff7180b3696",
+                  "name": "TextScreen",
+                  "component": "editor",
+                  "config": {
+                    "objectPath": "[MTGDeckBox.eez-project]:/userPages/9",
+                    "permanent": true
                   },
                   "icon": "svg:page"
                 },
@@ -249,17 +260,6 @@
                     "permanent": true
                   },
                   "icon": "svg:page"
-                },
-                {
-                  "type": "tab",
-                  "id": "#0ee8e5ea-e19a-472f-b57c-409c6ee6e75f",
-                  "name": "SpecHeading",
-                  "component": "editor",
-                  "config": {
-                    "objectPath": "[MTGDeckBox.eez-project]:/fonts/5",
-                    "permanent": false
-                  },
-                  "icon": "material:font_download"
                 }
               ],
               "active": true
@@ -1044,18 +1044,19 @@
             },
             "2": {},
             "3": {},
-            "4": {},
-            "$selected": true
+            "4": {}
           },
-          "3": {}
+          "3": {
+            "$selected": true
+          }
         }
       },
       "transform": {
         "translate": {
-          "x": -106.96127087198516,
-          "y": -221.73581478045762
+          "x": -182.1279375386519,
+          "y": -279.48581478045764
         },
-        "scale": 1.5
+        "scale": 1.75
       },
       "timeline": {
         "isEditorActive": false,
@@ -1095,7 +1096,11 @@
       "selection": {
         "0": {
           "0": {},
-          "3": {}
+          "2": {},
+          "3": {},
+          "10": {
+            "$selected": true
+          }
         }
       },
       "transform": {
@@ -1144,9 +1149,8 @@
           "1": {},
           "3": {
             "0": {
-              "0": {
-                "$selected": true
-              }
+              "0": {},
+              "$selected": true
             },
             "1": {
               "1": {}
@@ -1197,27 +1201,9 @@
       "selection": {
         "0": {
           "0": {},
-          "1": {
-            "0": {},
-            "2": {},
-            "3": {
-              "0": {
-                "0": {
-                  "$selected": true
-                }
-              },
-              "1": {},
-              "2": {
-                "0": {}
-              },
-              "3": {},
-              "4": {
-                "0": {}
-              },
-              "5": {}
-            }
-          },
-          "2": {}
+          "2": {
+            "2": {}
+          }
         }
       },
       "transform": {
@@ -1238,6 +1224,9 @@
       "selection": {
         "0": {
           "0": {},
+          "2": {},
+          "3": {},
+          "4": {},
           "5": {
             "3": {}
           },
@@ -1262,14 +1251,14 @@
       "selection": {
         "0": {
           "0": {},
-          "1": {
-            "$selected": true
-          },
+          "1": {},
           "2": {},
           "4": {},
           "5": {},
+          "6": {},
           "7": {},
-          "9": {}
+          "9": {},
+          "11": {}
         }
       },
       "transform": {
@@ -1343,16 +1332,15 @@
           "11": {},
           "12": {},
           "13": {},
-          "14": {
-            "$selected": true
-          },
-          "20": {}
+          "14": {},
+          "20": {},
+          "21": {}
         }
       },
       "transform": {
         "translate": {
-          "x": -176.30416666666667,
-          "y": -226.3291666666667
+          "x": -296.16250000000014,
+          "y": -290.65291666666656
         },
         "scale": 1.75
       },
@@ -1369,11 +1357,13 @@
           "0": {},
           "1": {
             "0": {},
+            "1": {}
+          },
+          "2": {
             "1": {
               "$selected": true
             }
           },
-          "2": {},
           "3": {},
           "4": {},
           "5": {},
@@ -1403,9 +1393,7 @@
         "0": {
           "0": {},
           "1": {},
-          "2": {
-            "$selected": true
-          },
+          "2": {},
           "3": {},
           "4": {},
           "5": {},
@@ -1439,10 +1427,10 @@
           "5": {},
           "6": {
             "0": {
-              "0": {},
-              "1": {
+              "0": {
                 "$selected": true
-              }
+              },
+              "1": {}
             },
             "1": {},
             "2": {},
@@ -1451,7 +1439,8 @@
             },
             "4": {},
             "5": {}
-          }
+          },
+          "7": {}
         }
       },
       "transform": {
@@ -1485,7 +1474,8 @@
   "lvglState": "DEFAULT",
   "lvglExpandedPropertiesGroup": [
     "POSITION AND SIZE",
-    "TEXT"
+    "TEXT",
+    "BACKGROUND"
   ],
   "showInactiveFlowsInDebugger": true,
   "globalFlowZoom": true,

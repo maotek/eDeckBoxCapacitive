@@ -10,6 +10,13 @@
 #include "player.h"
 #include "layout.h"
 #include "keyboard.h"
+#include "nvs_flash.h"
+#include "driver/rtc_io.h"
+
+// TURN OFF BUTTON -----------------------------
+#define BUTTON_PIN 26
+bool buttonPressed = false;
+// TURN OFF BUTTON -----------------------------
 
 #define BUFFER_LINES 160
 #define TFT_HOR_RES 240
@@ -24,9 +31,8 @@
 #define ADC_WIDTH_CFG ADC_WIDTH_BIT_12
 #define ADC_ATTEN_CFG ADC_ATTEN_DB_11 // ~0–3.3V range on ESP32
 
-#define V_MIN 3.0f       // empty voltage
-#define V_FULL 4.13f     // treat as full starting at 4.13 V
-#define V_CHARGING 4.16f // treat as charging starting at 4.16 V
+#define V_MIN 3.0f   // empty voltage
+#define V_FULL 4.13f // treat as full starting at 4.13 V
 
 static esp_adc_cal_characteristics_t adc_chars;
 
@@ -97,8 +103,49 @@ const float R2 = 100000.0;
 
 char voltageBuf[16];
 
+void enterDeepSleep()
+{
+  Serial.println("Entering deep sleep...");
+  delay(500);
+
+  // --- TFT SPI pins ---
+  pinMode(12, INPUT);
+  pinMode(13, INPUT);
+  pinMode(14, INPUT);
+  pinMode(15, INPUT);
+  pinMode(2, INPUT);
+  digitalWrite(27, LOW); // ensure BL transistor off
+  pinMode(27, INPUT);
+
+  // --- Touch (CST820) ---
+  pinMode(33, INPUT); // SDA
+  pinMode(32, INPUT); // SCL
+  pinMode(21, INPUT); // INT
+  pinMode(25, OUTPUT);
+  digitalWrite(25, LOW); // hold reset low
+
+  // pinMode(22, OUTPUT);
+  // digitalWrite(22, LOW);
+
+  // esp_sleep_enable_timer_wakeup((gpio_num_t)BUTTON_PIN, 0);
+  esp_sleep_enable_ext0_wakeup((gpio_num_t)BUTTON_PIN, 0);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+
+  delay(100);
+
+  esp_deep_sleep_start();
+}
+
 void setup()
 {
+  esp_err_t err = nvs_flash_init();
+  if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND)
+  {
+    Serial.println("Erasing and reinitializing NVS...");
+    ESP_ERROR_CHECK(nvs_flash_erase());
+    ESP_ERROR_CHECK(nvs_flash_init());
+  }
+
   pinMode(27, OUTPUT);
   digitalWrite(27, LOW);
   tft.begin();
@@ -113,10 +160,13 @@ void setup()
 
   // Set initial brightness
   analogWrite(27, get_value_with_key("pref", "brightness", 100));
+  // analogWrite(27, 125);
 
   init_adc_cal();
 
   Serial.begin(115200);
+
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
 
   // START MAIN
   lv_init();
@@ -166,8 +216,29 @@ void setup()
 void loop()
 {
   lv_timer_handler();
-  delay(1);
+  delay(5);
 
+  // handlePowerButton();
+
+  if (true)
+  {
+    //  --------------- TURN OFF BUTTON -----------------------------
+    bool isPressed = !digitalRead(BUTTON_PIN);
+    Serial.println(isPressed ? "Pressed" : "Not pressed");
+    if (isPressed && !buttonPressed)
+    {
+      buttonPressed = true;
+    }
+    else if (!isPressed && buttonPressed)
+    {
+      buttonPressed = false;
+      enterDeepSleep();
+    }
+  }
+
+  // --------------- TURN OFF BUTTON -----------------------------
+
+  // --------------- ADC reading and voltage display -----------------------------
   static uint32_t acc = 0;
   static uint16_t sampleCount = 0;
   static uint32_t lastSample = 0;
@@ -184,7 +255,6 @@ void loop()
     lastSample = millis();
   }
 
-  // update display about once per second
   if ((millis() - lastUpdate) >= 2000 && sampleCount > 0)
   {
     // Average as before
@@ -199,71 +269,23 @@ void loop()
     // Apply divider
     vOutInstant = vOutInstant * ((R1 + R2) / R2); // R1 top, R2 bottom
 
-    lv_label_set_text(objects.voltage, dtostrf(vOutInstant, 4, 2, voltageBuf));
+    float percent = (vOutInstant - V_MIN) * (100.0f / (V_FULL - V_MIN));
 
-    // // --- Determine state ---
-    // float percent = 0;
-    // bool charging = false;
+    if (percent < 0.0f)
+      percent = 0.0f;
+    if (percent > 100.0f)
+      percent = 100.0f;
 
-    // if (vOutInstant >= V_CHARGING)
-    // {
-    //   // 4.16 V or above → charging
-    //   percent = 100.0f;
-    //   charging = true;
-    // }
-    // else if (vOutInstant >= V_FULL)
-    // {
-    //   // Between 4.13 and 4.16 → full
-    //   percent = 100.0f;
-    // }
-    // else
-    // {
-    //   // Below 4.13 → scale between V_MIN and V_FULL
-    //   percent = (vOutInstant - V_MIN) / (V_FULL - V_MIN) * 100.0f;
-    //   if (percent < 0)
-    //     percent = 0;
-    //   if (percent > 100)
-    //     percent = 100;
-    // }
+    if (percent < lowestPercent)
+      lowestPercent = percent;
 
-    // // if (percent < lowestPercent)
-    // {
-    //   lowestPercent = percent; // update when new lower value found
-    // }
-
-    // // --- Format label ---
-    // char buf[32];
-    // if (charging)
-    // {
-    //   snprintf(buf, sizeof(buf), "CHG", lowestPercent);
-    // }
-    // else if (percent == 100.0f)
-    // {
-    //   snprintf(buf, sizeof(buf), "%.0f%%", lowestPercent);
-    // }
-    // else
-    // {
-    //   snprintf(buf, sizeof(buf), "%.0f%%", lowestPercent);
-    // }
-    // lv_label_set_text(objects.voltage, buf);
-
-    // // --- Color ---
-    // if (charging)
-    // {
-    //   lv_obj_set_style_text_color(objects.voltage,
-    //                               lv_color_hex(0x00FF00), 0);
-    // }
-    // else if (percent < 20.0f)
-    // {
-    //   lv_obj_set_style_text_color(objects.voltage,
-    //                               lv_color_hex(0xFF0000), 0);
-    // }
-    // else
-    // {
-    //   lv_obj_set_style_text_color(objects.voltage,
-    //                               lv_color_hex(0xFFFFFF), 0);
-    // }
+    char displayBuf[32];
+    // snprintf(displayBuf, sizeof(displayBuf), "%d%%", (int)(percent));
+    snprintf(displayBuf, sizeof(displayBuf), "%d%%", (int)(mv));
+    lv_label_set_text(objects.voltage, displayBuf);
 
     lastUpdate = millis();
   }
+
+  // --------------- ADC reading and voltage display -----------------------------
 }
