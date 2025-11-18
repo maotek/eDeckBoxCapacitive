@@ -2,14 +2,17 @@
 
 ![](IMG_5678.jpeg)
 
-## Specs
+## Parts
 
 - Cheap Yellow Display 2.4 inch capacitive touch
-- 1800mAh LiPo
+- 1800mAh LiPo 803450 (preferably with JST 1.25mm)
+- 100K & 33K resistor for voltage divider
+- New IP5306 powermangement IC (double click shutoff), since some default boards have IP5306 with 10 seconds press for shutdown - impractical
 
 ---
 
 ## Stack
+
 - LVGL v8.3.11
 - PlatformIO
 - Arduino
@@ -21,7 +24,8 @@
 
 - Battery Percentage Readout (Voltage divider is noisy)
 - Minor Bugs
-- Rotation
+- Rotation for EDH life tracker
+- Upload .STL files for 3D printed case
   
 ---
 
