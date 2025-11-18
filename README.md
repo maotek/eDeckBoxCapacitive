@@ -1,41 +1,31 @@
 # MaoTek eDeckBox, electronic DeckBox for MTG with built-in lifecounter
 
+![](IMG_5678.jpeg)
+
 ## Specs
 
-- CYD 2.4 inch (capacitive touch version)
-- 1800mAh LiPo (Maybe more?) total 3.7 Wh power.
-- 0.78 Watt @ 5V at max brightness
-- 0.56 Watt @ 5V at lowest brightness
-- (Maybe lower PMW duty cycle for less brightness?)
+- Cheap Yellow Display 2.4 inch capacitive touch
+- 1800mAh LiPo
 
 ---
 
 ## Stack
-
 - LVGL v8.3.11
 - PlatformIO
-
----
-
-## What's Done
-
-- A lot
-
+- Arduino
+- EEZstudio
+  
 ---
 
 ## TODO
 
-- BUGS
-
+- Battery Percentage Readout (Voltage divider is noisy)
+- Minor Bugs
+- Rotation
+  
 ---
 
-## End of Life
-
-- MaoTek Enterprise does not support further development of this product.
-
----
-
-## For performance monitor, please paste the following code into LVGL lvgl/src/core/lv_refr.c
+## Note: For performance monitor, please paste the following code into LVGL lvgl/src/core/lv_refr.c
 
 Put this variable on top of the file:
 
