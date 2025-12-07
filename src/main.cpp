@@ -13,11 +13,6 @@
 #include "nvs_flash.h"
 #include "driver/rtc_io.h"
 
-// TURN OFF BUTTON -----------------------------
-#define BUTTON_PIN 26
-bool buttonPressed = false;
-// TURN OFF BUTTON -----------------------------
-
 #define BUFFER_LINES 160
 #define TFT_HOR_RES 240
 #define TFT_VER_RES 320
@@ -103,39 +98,6 @@ const float R2 = 100000.0;
 
 char voltageBuf[16];
 
-void enterDeepSleep()
-{
-  Serial.println("Entering deep sleep...");
-  delay(500);
-
-  // --- TFT SPI pins ---
-  pinMode(12, INPUT);
-  pinMode(13, INPUT);
-  pinMode(14, INPUT);
-  pinMode(15, INPUT);
-  pinMode(2, INPUT);
-  digitalWrite(27, LOW); // ensure BL transistor off
-  pinMode(27, INPUT);
-
-  // --- Touch (CST820) ---
-  pinMode(33, INPUT); // SDA
-  pinMode(32, INPUT); // SCL
-  pinMode(21, INPUT); // INT
-  pinMode(25, OUTPUT);
-  digitalWrite(25, LOW); // hold reset low
-
-  // pinMode(22, OUTPUT);
-  // digitalWrite(22, LOW);
-
-  // esp_sleep_enable_timer_wakeup((gpio_num_t)BUTTON_PIN, 0);
-  esp_sleep_enable_ext0_wakeup((gpio_num_t)BUTTON_PIN, 0);
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
-
-  delay(100);
-
-  esp_deep_sleep_start();
-}
-
 void setup()
 {
   esp_err_t err = nvs_flash_init();
@@ -166,8 +128,6 @@ void setup()
 
   Serial.begin(115200);
 
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
-
   // START MAIN
   lv_init();
 
@@ -189,6 +149,7 @@ void setup()
   disp_drv.ver_res = TFT_VER_RES;
   disp_drv.flush_cb = my_disp_flush;
   disp_drv.draw_buf = &draw_buf_struct;
+  disp_drv.sw_rotate = 1; // enable software rotation
   lv_disp_drv_register(&disp_drv);
 
   // LVGL touch input setup
@@ -217,26 +178,6 @@ void loop()
 {
   lv_timer_handler();
   delay(5);
-
-  // handlePowerButton();
-
-  if (true)
-  {
-    //  --------------- TURN OFF BUTTON -----------------------------
-    bool isPressed = !digitalRead(BUTTON_PIN);
-    Serial.println(isPressed ? "Pressed" : "Not pressed");
-    if (isPressed && !buttonPressed)
-    {
-      buttonPressed = true;
-    }
-    else if (!isPressed && buttonPressed)
-    {
-      buttonPressed = false;
-      enterDeepSleep();
-    }
-  }
-
-  // --------------- TURN OFF BUTTON -----------------------------
 
   // --------------- ADC reading and voltage display -----------------------------
   static uint32_t acc = 0;

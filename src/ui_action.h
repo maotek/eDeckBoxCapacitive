@@ -35,9 +35,9 @@ typedef enum
     ACT_OPEN_MANACOUNTER = 108,
     ACT_OPEN_MULTI_LIFECOUNT = 109,
     ACT_OPEN_MULTI_LIFECOUNT_SETTINGS = 110,
+    ACT_OPEN_DOUBLE_LIFECOUNT = 111,
 
     /* --- settings ------------------------------------------------ */
-    ACT_TOGGLE_PERF_MON = 200,
     ACT_TOGGLE_BACKGROUND = 201,
     ACT_RESTART_DEVICE = 202,
 
@@ -93,6 +93,11 @@ typedef enum
     ACT_ML_2_OPP3 = 743,
     ACT_ML_2_OPP4 = 744,
     ACT_ML_2_OPP5 = 745,
+
+    ACT_DL_MAIN_INCR = 800,
+    ACT_DL_MAIN_DECR = 801,
+    ACT_DL_SUB_INCR = 802,
+    ACT_DL_SUB_DECR = 803,
 
 } ui_btn_action_t;
 

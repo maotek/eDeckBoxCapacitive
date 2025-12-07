@@ -17,6 +17,7 @@ typedef struct _objects_t {
     lv_obj_t *single_lifecount;
     lv_obj_t *single_lifecount_settings;
     lv_obj_t *single_lifecount_opponent_adjust_count;
+    lv_obj_t *double_lifecount;
     lv_obj_t *text_screen;
     lv_obj_t *mana_counter;
     lv_obj_t *multi_lifecount;
@@ -47,13 +48,12 @@ typedef struct _objects_t {
     lv_obj_t *obj18;
     lv_obj_t *obj19;
     lv_obj_t *obj20;
-    lv_obj_t *obj21;
     lv_obj_t *brightness_slider;
+    lv_obj_t *obj21;
     lv_obj_t *obj22;
     lv_obj_t *obj23;
     lv_obj_t *obj24;
     lv_obj_t *obj25;
-    lv_obj_t *obj26;
     lv_obj_t *single_lifecount_bg_label;
     lv_obj_t *single_lifecount_edh_container;
     lv_obj_t *sl_edh_life_label;
@@ -71,12 +71,12 @@ typedef struct _objects_t {
     lv_obj_t *single_lifecount_edh_btn6_label;
     lv_obj_t *single_lifecount_1v1_container;
     lv_obj_t *sl_1v1_life_label;
+    lv_obj_t *obj26;
     lv_obj_t *obj27;
     lv_obj_t *obj28;
     lv_obj_t *obj29;
     lv_obj_t *obj30;
     lv_obj_t *obj31;
-    lv_obj_t *obj32;
     lv_obj_t *single_lifecount_setting_mode;
     lv_obj_t *single_lifecount_edh_setting_container;
     lv_obj_t *single_lifecount_edh_settings_playercount_label;
@@ -86,37 +86,43 @@ typedef struct _objects_t {
     lv_obj_t *single_lifecount_1v1_setting_container;
     lv_obj_t *single_lifecount_1v1_settings_initiallife_label;
     lv_obj_t *single_lifecount_1v1_settings_initiallife_slider;
-    lv_obj_t *obj33;
+    lv_obj_t *obj32;
     lv_obj_t *sl_opponent_namelabel;
     lv_obj_t *sl_edh_commander_dealt_label;
+    lv_obj_t *obj33;
     lv_obj_t *obj34;
     lv_obj_t *obj35;
     lv_obj_t *obj36;
-    lv_obj_t *obj37;
     lv_obj_t *sl_edh_commander_taken_label;
+    lv_obj_t *obj37;
+    lv_obj_t *dl_main_label;
+    lv_obj_t *dl_sub_label;
+    lv_obj_t *dl_sub_label_2;
     lv_obj_t *obj38;
+    lv_obj_t *dl_main_label_2;
+    lv_obj_t *obj39;
     lv_obj_t *my_keyboard;
     lv_obj_t *my_textarea;
-    lv_obj_t *obj39;
     lv_obj_t *obj40;
     lv_obj_t *obj41;
+    lv_obj_t *obj42;
     lv_obj_t *mana_blue_label;
     lv_obj_t *mana_black_label;
     lv_obj_t *mana_green_label;
     lv_obj_t *mana_yellow_label;
     lv_obj_t *mana_red_label;
     lv_obj_t *mana_colorless_label;
-    lv_obj_t *obj42;
     lv_obj_t *obj43;
     lv_obj_t *obj44;
+    lv_obj_t *obj45;
     lv_obj_t *ml_1_btn1;
     lv_obj_t *ml_1_btn1_label;
     lv_obj_t *ml_1_btn1_name;
     lv_obj_t *ml_1_btn2;
     lv_obj_t *ml_1_btn2_label;
     lv_obj_t *ml_1_btn2_name;
-    lv_obj_t *obj45;
     lv_obj_t *obj46;
+    lv_obj_t *obj47;
     lv_obj_t *ml_1_btn3;
     lv_obj_t *ml_1_btn3_label;
     lv_obj_t *ml_1_btn3_name;
@@ -129,17 +135,17 @@ typedef struct _objects_t {
     lv_obj_t *ml_1_btn6;
     lv_obj_t *ml_1_btn6_label;
     lv_obj_t *ml_1_btn6_name;
-    lv_obj_t *obj47;
+    lv_obj_t *obj48;
     lv_obj_t *multi_lifecount_settings_playercount_label;
     lv_obj_t *multi_lifecount_settings_player_slider;
     lv_obj_t *multi_lifecount_settings_initiallife_label;
     lv_obj_t *multi_lifecount_settings_initiallife_slider;
-    lv_obj_t *obj48;
     lv_obj_t *obj49;
     lv_obj_t *obj50;
     lv_obj_t *obj51;
     lv_obj_t *obj52;
     lv_obj_t *obj53;
+    lv_obj_t *obj54;
     lv_obj_t *ml_life_label;
     lv_obj_t *ml_2_btn1;
     lv_obj_t *ml_2_btn1_label;
@@ -174,11 +180,12 @@ enum ScreensEnum {
     SCREEN_ID_SINGLE_LIFECOUNT = 7,
     SCREEN_ID_SINGLE_LIFECOUNT_SETTINGS = 8,
     SCREEN_ID_SINGLE_LIFECOUNT_OPPONENT_ADJUST_COUNT = 9,
-    SCREEN_ID_TEXT_SCREEN = 10,
-    SCREEN_ID_MANA_COUNTER = 11,
-    SCREEN_ID_MULTI_LIFECOUNT = 12,
-    SCREEN_ID_MULTI_LIFECOUNT_SETTINGS = 13,
-    SCREEN_ID_MULTI_LIFECOUNT_OPPONENT_ADJUST_COUNT = 14,
+    SCREEN_ID_DOUBLE_LIFECOUNT = 10,
+    SCREEN_ID_TEXT_SCREEN = 11,
+    SCREEN_ID_MANA_COUNTER = 12,
+    SCREEN_ID_MULTI_LIFECOUNT = 13,
+    SCREEN_ID_MULTI_LIFECOUNT_SETTINGS = 14,
+    SCREEN_ID_MULTI_LIFECOUNT_OPPONENT_ADJUST_COUNT = 15,
 };
 
 void create_screen_main();
@@ -207,6 +214,9 @@ void tick_screen_single_lifecount_settings();
 
 void create_screen_single_lifecount_opponent_adjust_count();
 void tick_screen_single_lifecount_opponent_adjust_count();
+
+void create_screen_double_lifecount();
+void tick_screen_double_lifecount();
 
 void create_screen_text_screen();
 void tick_screen_text_screen();

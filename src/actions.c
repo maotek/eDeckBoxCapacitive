@@ -192,6 +192,16 @@ void action_generic_button_cb(lv_event_t *e)
         loadScreen(SCREEN_ID_COUNTER_SELECT);
         break;
 
+    case ACT_OPEN_DOUBLE_LIFECOUNT:
+        // Set saved labels
+        lv_label_set_text_fmt(objects.dl_main_label, "%d", get_value_with_key("dl", "main_life", 20));
+        lv_label_set_text_fmt(objects.dl_sub_label, "%d", get_value_with_key("dl", "sub_life", 20));
+        lv_label_set_text_fmt(objects.dl_main_label_2, "%d", get_value_with_key("dl", "main_life", 20));
+        lv_label_set_text_fmt(objects.dl_sub_label_2, "%d", get_value_with_key("dl", "sub_life", 20));
+
+        loadScreen(SCREEN_ID_DOUBLE_LIFECOUNT);
+        break;
+
     case ACT_OPEN_SINGLE_LIFECOUNT_SETTINGS:
         // Set labels
         lv_label_set_text_fmt(objects.single_lifecount_edh_settings_playercount_label, "Players: %d", sl_layout_count);
@@ -302,23 +312,6 @@ void action_generic_button_cb(lv_event_t *e)
         /* ---------------------------------- END MANA COUNTER -------------------------- */
 
         /* ---------------------------------- SETTINGS -------------------------- */
-
-    case ACT_TOGGLE_PERF_MON:
-    {
-        // Requires manual change in core files, lv_refr.c to expose the perf_label to user code.
-        lv_obj_t *perf_label = lv_perf_monitor_get_label();
-        if (lv_obj_has_flag(perf_label, LV_OBJ_FLAG_HIDDEN))
-        {
-            lv_obj_clear_flag(perf_label, LV_OBJ_FLAG_HIDDEN);
-            lv_perf_monitor_enable(true);
-        }
-        else
-        {
-            lv_obj_add_flag(perf_label, LV_OBJ_FLAG_HIDDEN);
-            lv_perf_monitor_enable(false);
-        }
-        break;
-    }
 
     case ACT_TOGGLE_BACKGROUND:
     {
@@ -919,7 +912,48 @@ void action_generic_button_cb(lv_event_t *e)
         }
         break;
 
-        /* ---------------------------------- END MULTI LIFECOUNT COMMANDER DAMAGE MANAGEMENT -------------------------- */
+    /* ---------------------------------- END MULTI LIFECOUNT COMMANDER DAMAGE MANAGEMENT -------------------------- */
+
+    /* ---------------------------------- DOUBLE LIFECOUNT DAMAGE MANAGEMENT -------------------------- */
+    case ACT_DL_MAIN_INCR:
+        if (code == LV_EVENT_SHORT_CLICKED ||
+            code == LV_EVENT_LONG_PRESSED_REPEAT)
+        {
+            bump_life_label(objects.dl_main_label, 1);
+            bump_life_label(objects.dl_main_label_2, 1);
+            set_value_with_key("dl", "main_life", atoi(lv_label_get_text(objects.dl_main_label)));
+        }
+        break;
+
+    case ACT_DL_MAIN_DECR:
+        if (code == LV_EVENT_SHORT_CLICKED ||
+            code == LV_EVENT_LONG_PRESSED_REPEAT)
+        {
+            bump_life_label(objects.dl_main_label, -1);
+            bump_life_label(objects.dl_main_label_2, -1);
+            set_value_with_key("dl", "main_life", atoi(lv_label_get_text(objects.dl_main_label)));
+        }
+        break;
+
+    case ACT_DL_SUB_INCR:
+        if (code == LV_EVENT_SHORT_CLICKED ||
+            code == LV_EVENT_LONG_PRESSED_REPEAT)
+        {
+            bump_life_label(objects.dl_sub_label, 1);
+            bump_life_label(objects.dl_sub_label_2, 1);
+            set_value_with_key("dl", "sub_life", atoi(lv_label_get_text(objects.dl_sub_label)));
+        }
+        break;
+
+    case ACT_DL_SUB_DECR:
+        if (code == LV_EVENT_SHORT_CLICKED ||
+            code == LV_EVENT_LONG_PRESSED_REPEAT)
+        {
+            bump_life_label(objects.dl_sub_label, -1);
+            bump_life_label(objects.dl_sub_label_2, -1);
+            set_value_with_key("dl", "sub_life", atoi(lv_label_get_text(objects.dl_sub_label)));
+        }
+        break;
 
     default:
         break;

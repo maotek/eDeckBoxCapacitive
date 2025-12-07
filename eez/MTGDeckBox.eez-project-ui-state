@@ -1,7 +1,7 @@
 {
   "navigation": {
-    "selectedUserPageObject": "[MTGDeckBox.eez-project]:/userPages/0",
-    "selectedStyleObject": "[MTGDeckBox.eez-project]:/lvglStyles/styles/1",
+    "selectedUserPageObject": "[MTGDeckBox.eez-project]:/userPages/9",
+    "selectedStyleObject": "[MTGDeckBox.eez-project]:/lvglStyles/styles/0",
     "selectedBitmapObject": "[MTGDeckBox.eez-project]:/bitmaps/9",
     "subnavigationSelectedItems": {}
   },
@@ -23,8 +23,8 @@
           },
           {
             "type": "border",
-            "selected": 2,
-            "size": 209.5,
+            "selected": 0,
+            "size": 129.5,
             "location": "right",
             "children": [
               {
@@ -190,17 +190,17 @@
             {
               "type": "tabset",
               "id": "EDITORS",
-              "weight": 46.048459799240554,
+              "weight": 38.80004997128577,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
               "children": [
                 {
                   "type": "tab",
-                  "id": "#ab113030-ecdd-4ac5-9561-a8f89dc49b17",
-                  "name": "Main",
+                  "id": "#de1d1ccc-5dd8-4968-a8c5-a9f095b53922",
+                  "name": "DoubleLifecount",
                   "component": "editor",
                   "config": {
-                    "objectPath": "[MTGDeckBox.eez-project]:/userPages/0",
+                    "objectPath": "[MTGDeckBox.eez-project]:/userPages/9",
                     "permanent": false
                   },
                   "icon": "svg:page"
@@ -240,18 +240,6 @@
                 },
                 {
                   "type": "tab",
-                  "id": "#056afdc6-f70d-441c-83a3-b1200ef0cec2",
-                  "name": "Settings",
-                  "component": "editor",
-                  "config": {
-                    "objectPath": "[MTGDeckBox.eez-project]:/settings",
-                    "subObjectPath": "[MTGDeckBox.eez-project]:/settings",
-                    "permanent": false
-                  },
-                  "icon": "material:settings"
-                },
-                {
-                  "type": "tab",
                   "id": "#5bd9b33a-40be-42ed-8b26-1d2dbaef3621",
                   "name": "counter_select",
                   "component": "editor",
@@ -267,7 +255,7 @@
             {
               "type": "row",
               "id": "#4e952ef4-ee42-49c9-a39b-040281af0570",
-              "weight": 28.06078019016221,
+              "weight": 35.30919001811699,
               "children": [
                 {
                   "type": "tabset",
@@ -1046,17 +1034,15 @@
             "3": {},
             "4": {}
           },
-          "3": {
-            "$selected": true
-          }
+          "3": {}
         }
       },
       "transform": {
         "translate": {
-          "x": -182.1279375386519,
-          "y": -279.48581478045764
+          "x": -126.54166666666669,
+          "y": -162.22916666666669
         },
-        "scale": 1.75
+        "scale": 1.25
       },
       "timeline": {
         "isEditorActive": false,
@@ -1083,7 +1069,7 @@
           "x": -99.47845771144273,
           "y": -230.8202777777775
         },
-        "scale": 1.75
+        "scale": 1.5
       },
       "timeline": {
         "isEditorActive": false,
@@ -1098,9 +1084,10 @@
           "0": {},
           "2": {},
           "3": {},
-          "10": {
+          "5": {
             "$selected": true
-          }
+          },
+          "10": {}
         }
       },
       "transform": {
@@ -1108,7 +1095,7 @@
           "x": -108.6035033022535,
           "y": -278.3313791763793
         },
-        "scale": 1.75
+        "scale": 1.5
       },
       "timeline": {
         "isEditorActive": false,
@@ -1118,10 +1105,10 @@
       }
     },
     "[MTGDeckBox.eez-project]:/lvglStyles/styles[tree-state]": {
-      "0": {},
-      "1": {
+      "0": {
         "$selected": true
       },
+      "1": {},
       "2": {}
     },
     "[MTGDeckBox.eez-project]:/userPages/3[flow-state]": {
@@ -1133,7 +1120,7 @@
           "x": -214,
           "y": -230
         },
-        "scale": 1.75
+        "scale": 1.5
       },
       "timeline": {
         "isEditorActive": false,
@@ -1149,10 +1136,6 @@
           "1": {},
           "3": {
             "0": {
-              "0": {},
-              "$selected": true
-            },
-            "1": {
               "1": {}
             }
           }
@@ -1161,9 +1144,9 @@
       "transform": {
         "translate": {
           "x": -120,
-          "y": -260
+          "y": -160
         },
-        "scale": 1.75
+        "scale": 1.5
       },
       "timeline": {
         "isEditorActive": false,
@@ -1180,15 +1163,16 @@
           "2": {},
           "3": {},
           "4": {},
-          "5": {}
+          "5": {},
+          "6": {}
         }
       },
       "transform": {
         "translate": {
           "x": -120,
-          "y": -260
+          "y": -160
         },
-        "scale": 1.75
+        "scale": 1.5
       },
       "timeline": {
         "isEditorActive": false,
@@ -1200,18 +1184,15 @@
     "[MTGDeckBox.eez-project]:/userPages/6[flow-state]": {
       "selection": {
         "0": {
-          "0": {},
-          "2": {
-            "2": {}
-          }
+          "0": {}
         }
       },
       "transform": {
         "translate": {
-          "x": -221.03541666666672,
-          "y": -268.43611111111113
+          "x": -120,
+          "y": -160
         },
-        "scale": 1.75
+        "scale": 1.5
       },
       "timeline": {
         "isEditorActive": false,
@@ -1224,21 +1205,20 @@
       "selection": {
         "0": {
           "0": {},
-          "2": {},
-          "3": {},
-          "4": {},
-          "5": {
-            "3": {}
+          "1": {
+            "$selected": true
           },
+          "2": {},
+          "4": {},
           "6": {}
         }
       },
       "transform": {
         "translate": {
-          "x": -213,
-          "y": -247
+          "x": -120,
+          "y": -160
         },
-        "scale": 1.75
+        "scale": 1.5
       },
       "timeline": {
         "isEditorActive": false,
@@ -1263,10 +1243,10 @@
       },
       "transform": {
         "translate": {
-          "x": -167.5275,
-          "y": -347.25
+          "x": -120,
+          "y": -160
         },
-        "scale": 1.75
+        "scale": 1.5
       },
       "timeline": {
         "isEditorActive": false,
@@ -1281,15 +1261,20 @@
           "0": {},
           "1": {},
           "2": {},
-          "3": {}
+          "3": {},
+          "4": {},
+          "5": {
+            "$selected": true
+          },
+          "9": {}
         }
       },
       "transform": {
         "translate": {
-          "x": -194,
-          "y": -247
+          "x": -146.64285714285717,
+          "y": -278.0892857142857
         },
-        "scale": 1.75
+        "scale": 1.5
       },
       "timeline": {
         "isEditorActive": false,
@@ -1322,27 +1307,17 @@
       "selection": {
         "0": {
           "0": {},
+          "1": {},
           "2": {},
-          "3": {},
-          "6": {},
-          "7": {},
-          "8": {},
-          "9": {},
-          "10": {},
-          "11": {},
-          "12": {},
-          "13": {},
-          "14": {},
-          "20": {},
-          "21": {}
+          "3": {}
         }
       },
       "transform": {
         "translate": {
-          "x": -296.16250000000014,
-          "y": -290.65291666666656
+          "x": -120,
+          "y": -160
         },
-        "scale": 1.75
+        "scale": 1.5
       },
       "timeline": {
         "isEditorActive": false,
@@ -1355,15 +1330,8 @@
       "selection": {
         "0": {
           "0": {},
-          "1": {
-            "0": {},
-            "1": {}
-          },
-          "2": {
-            "1": {
-              "$selected": true
-            }
-          },
+          "1": {},
+          "2": {},
           "3": {},
           "4": {},
           "5": {},
@@ -1376,10 +1344,10 @@
       },
       "transform": {
         "translate": {
-          "x": -147.59583333333333,
-          "y": -284.64166666666665
+          "x": -120,
+          "y": -160
         },
-        "scale": 1.75
+        "scale": 1.5
       },
       "timeline": {
         "isEditorActive": false,
@@ -1392,20 +1360,25 @@
       "selection": {
         "0": {
           "0": {},
-          "1": {},
+          "1": {
+            "0": {
+              "$selected": true
+            }
+          },
           "2": {},
           "3": {},
           "4": {},
           "5": {},
+          "6": {},
           "7": {}
         }
       },
       "transform": {
         "translate": {
           "x": -120,
-          "y": -360
+          "y": -160
         },
-        "scale": 1.75
+        "scale": 1.5
       },
       "timeline": {
         "isEditorActive": false,
@@ -1417,38 +1390,45 @@
     "[MTGDeckBox.eez-project]:/userPages/13[flow-state]": {
       "selection": {
         "0": {
-          "1": {
-            "0": {}
-          },
-          "3": {
-            "0": {}
-          },
+          "1": {},
+          "3": {},
           "4": {},
           "5": {},
           "6": {
-            "0": {
-              "0": {
-                "$selected": true
-              },
-              "1": {}
-            },
-            "1": {},
-            "2": {},
-            "3": {
-              "0": {}
-            },
-            "4": {},
-            "5": {}
+            "0": {}
           },
           "7": {}
         }
       },
       "transform": {
         "translate": {
-          "x": -192.90000000000003,
-          "y": -189.66071428571428
+          "x": -120,
+          "y": -160
         },
-        "scale": 1.75
+        "scale": 1.5
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[MTGDeckBox.eez-project]:/userPages/14[flow-state]": {
+      "selection": {
+        "0": {
+          "1": {
+            "$selected": true
+          },
+          "2": {}
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -120,
+          "y": -160
+        },
+        "scale": 1.5
       },
       "timeline": {
         "isEditorActive": false,
@@ -1473,12 +1453,10 @@
   "lvglPart": "MAIN",
   "lvglState": "DEFAULT",
   "lvglExpandedPropertiesGroup": [
-    "POSITION AND SIZE",
-    "TEXT",
-    "BACKGROUND"
+    "POSITION AND SIZE"
   ],
   "showInactiveFlowsInDebugger": true,
   "globalFlowZoom": true,
-  "flowZoom": 1.75,
+  "flowZoom": 1.5,
   "implementationLanguage": "C"
 }
