@@ -1,4 +1,4 @@
-# MaoTek eDeckBox, electronic DeckBox for MTG with built-in lifecounter
+# MaoTek eDeckBox — electronic DeckBox for MTG with built-in lifecounter
 
 ![](IMG_5678.jpeg)
 
@@ -20,6 +20,37 @@
   
 ---
 
+## First-time setup (EEZ + config_files)
+
+### 1) Open the EEZ project
+
+- Launch EEZstudio and open `eez/MTGDeckBox.eez-project`.
+
+### 2) Install `config_files/`
+
+This repository includes `config_files/` with:
+
+- `lv_conf.h` (LVGL configuration)
+- `User_Setup.h` (TFT_eSPI configuration)
+
+**Option B — copy into libraries (manual)**
+
+- Copy `config_files/lv_conf.h` into your LVGL library folder.
+- Copy `config_files/User_Setup.h` into your TFT_eSPI library folder.
+
+### 3) Build / Upload / Monitor (PowerShell)
+
+```powershell
+# build
+pio run
+
+# upload
+pio run -t upload
+
+# serial monitor
+pio device monitor -b 115200
+```
+
 ## TODO
 
 - Battery Percentage Readout (Voltage divider is noisy)
@@ -29,9 +60,9 @@
   
 ---
 
-## Note: For performance monitor, please paste the following code into LVGL lvgl/src/core/lv_refr.c
+## Note: For performance monitor, please paste the following code into LVGL `lvgl/src/core/lv_refr.c`
 
-Put this variable on top of the file:
+Put this variable at the top of the file:
 
 ```cpp
 #if LV_USE_PERF_MONITOR

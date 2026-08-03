@@ -185,7 +185,7 @@ void loop()
   static uint32_t lastSample = 0;
   static uint32_t lastUpdate = 0;
 
-  static float lowestPercent = 100.0f; // start at 100%
+  static float percentFiltered = 100.0f;
 
   // take one sample about every 50 ms
   if (millis() - lastSample >= 50)
@@ -217,12 +217,12 @@ void loop()
     if (percent > 100.0f)
       percent = 100.0f;
 
-    if (percent < lowestPercent)
-      lowestPercent = percent;
+    // Exponential moving average for stable percentage readout
+    const float alpha = 0.2f; // lower = smoother
+    percentFiltered = (alpha * percent) + ((1.0f - alpha) * percentFiltered);
 
     char displayBuf[32];
-    // snprintf(displayBuf, sizeof(displayBuf), "%d%%", (int)(percent));
-    snprintf(displayBuf, sizeof(displayBuf), "%d%%", (int)(mv));
+    snprintf(displayBuf, sizeof(displayBuf), "%d%%", (int)(percentFiltered + 0.5f));
     lv_label_set_text(objects.voltage, displayBuf);
 
     lastUpdate = millis();
